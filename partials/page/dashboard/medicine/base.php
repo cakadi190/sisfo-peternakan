@@ -81,7 +81,7 @@ $type = [
                     <?= $remaining ?>% <?= $remaining > 75 ? 'Tersedia' : ($remaining >= 30 && $remaining <= 75 ? 'Tersisa' : ($remaining === 0 ? 'Habis' : 'Tersisa')) ?>
                   </div>
                 </div>
-                <div><?= intval($medicineItem['stock']) - intval($medicineItem['total_quantity_taken']) ?> / <?= $medicineItem['stock'] ?></div>
+                <div><?= intval($medicineItem['stock']) - intval($medicineItem['total_quantity_taken']) ?> / <?= $medicineItem['stock'] ?><?=(intval($medicineItem['stock']) - intval($medicineItem['total_quantity_taken']) !== 0) ?: '<span class="text-danger"><i class="fas fa-exclamation-triangle ms-2 me-1"></i>Stok Habis!</span>' ?></div>
               </td>
               <td>
                 <div class="btn-group-sm btn-group">

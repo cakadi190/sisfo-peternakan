@@ -41,18 +41,35 @@ CREATE TABLE IF NOT EXISTS `animal_medicine` (
 
 -- Data exporting was unselected.
 
+-- Dumping structure for table bbib_crud.farm_category
+DROP TABLE IF EXISTS `farm_category`;
+CREATE TABLE IF NOT EXISTS `farm_category` (
+  `id` varchar(36) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `category_name` varchar(191) NOT NULL,
+  `color` varchar(191) NOT NULL DEFAULT '#fff',
+  `weight_class` enum('berat','sedang','kecil') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'kecil'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Data exporting was unselected.
+
 -- Dumping structure for table bbib_crud.medication_retrieval
 DROP TABLE IF EXISTS `medication_retrieval`;
 CREATE TABLE IF NOT EXISTS `medication_retrieval` (
   `id` varchar(36) NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `retrieval_date` date DEFAULT NULL,
+  `med_id` varchar(36) NOT NULL,
   `taken_by` int NOT NULL,
-  `quantity_taken` bigint DEFAULT NULL,
+  `quantity_taken` bigint unsigned DEFAULT '0',
   `evidence` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `taken_by` (`taken_by`),
-  CONSTRAINT `medication_retrieval_ibfk_1` FOREIGN KEY (`id`) REFERENCES `animal_medicine` (`id`),
-  CONSTRAINT `medication_retrieval_ibfk_2` FOREIGN KEY (`taken_by`) REFERENCES `users` (`id`)
+  KEY `medication_retrieval_ibfk_1` (`med_id`),
+  CONSTRAINT `medication_retrieval_ibfk_1` FOREIGN KEY (`med_id`) REFERENCES `animal_medicine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `medication_retrieval_ibfk_2` FOREIGN KEY (`taken_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data pengambilan obat-obatan ternak';
 
 -- Data exporting was unselected.
@@ -62,8 +79,9 @@ DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) NOT NULL DEFAULT 'Administrator',
+  `color` varchar(9) DEFAULT '#FFFFFF',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Role user and reference into user';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Role user and reference into user';
 
 -- Data exporting was unselected.
 
@@ -76,14 +94,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `full_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `address` longtext,
   `role` int unsigned NOT NULL,
-  `phone` varchar(20) DEFAULT NULL,
+  `phone` char(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `unique_email` (`email`),
+  UNIQUE KEY `unique_phone` (`phone`),
   KEY `constraint_users_to_roles` (`role`),
   CONSTRAINT `constraint_users_to_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data karyawan dan pengguna';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data karyawan dan pengguna';
 
 -- Data exporting was unselected.
 

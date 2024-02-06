@@ -4,6 +4,7 @@ use inc\classes\Request;
 use inc\classes\Sanitize;
 
 use function inc\helper\auth;
+use function inc\helper\dd;
 use function inc\helper\redirect;
 
 require_once __DIR__ . '/../../../../inc/loader.php';
@@ -11,6 +12,23 @@ require_once __DIR__ . '/../../../../inc/loader.php';
 // The middleware
 if (!auth()->check()) {
   redirect('/dashboard');
+}
+
+function checkIfStockLessThanTotalRetrieval($id, $stock) {
+  global $db;
+
+  $getStock = $db->getConnection()->prepare("SELECT COALESCE(CAST(SUM(`quantity_taken`) AS UNSIGNED), 0) as `total` FROM `medication_retrieval` WHERE `med_id` = ?");
+  $getStock->bind_param("s", $id);
+  $getStock->execute();
+  $dataStock = $getStock->get_result()->fetch_assoc();
+
+  $calcTotal = intval($dataStock['total']);
+
+  if($calcTotal > $stock) {
+    $_SESSION['error'] = "Stok tidak boleh kurang dari \"{$calcTotal} obat\".";
+    redirect()->back();
+    exit();
+  }
 }
 
 if (Request::isMethod('post')) {
@@ -38,6 +56,8 @@ if (Request::isMethod('post')) {
     $_SESSION['error'] = "Stok tidak boleh kurang dari 0 atau dalam kata lain nilai minus.";
     redirect()->back();
   }
+
+  checkIfStockLessThanTotalRetrieval($id, intval(Request::post('stock')));
 
   try {
     $db->update('animal_medicine', $medicationData, "`id` = '{$id}'");
