@@ -1,0 +1,25 @@
+RewriteEngine On
+RewriteBase /crud
+
+RewriteRule ^auth/logout$ logout.php [L]
+RewriteRule ^auth$ auth.php [L]
+
+RewriteRule ^dashboard$ dashboard.php [L]
+
+RewriteRule ^dashboard/employee$ employee.php [L]
+RewriteRule ^dashboard/employee/create$ employee.php?action=create [L]
+RewriteRule ^dashboard/employee/store$ employee.php?action=store [L]
+RewriteRule ^dashboard/employee/update$ employee.php?action=update [L]
+RewriteRule ^dashboard/employee/(\d+)/show$ employee.php?action=show&id=$1 [L]
+RewriteRule ^dashboard/employee/(\d+)/edit$ employee.php?action=edit&id=$1 [L]
+RewriteRule ^dashboard/employee/(\d+)/update$ employee.php?action=update&id=$1 [L]
+RewriteRule ^dashboard/employee/(\d+)/delete$ employee.php?action=delete&id=$1 [L]
+
+RewriteRule ^dashboard/medicine$ medicine.php [L]
+RewriteRule ^dashboard/medicine/create$ medicine.php?action=create [L]
+RewriteRule ^dashboard/medicine/store$ medicine.php?action=store [L]
+RewriteRule ^dashboard/medicine/update$ medicine.php?action=update [L]
+RewriteRule ^dashboard/medicine/(\w+)/show$ medicine.php?action=show&id=$1 [L]
+RewriteRule ^dashboard/medicine/(\w+)/edit$ medicine.php?action=edit&id=$1 [L]
+RewriteRule ^dashboard/medicine/(\w+)/update$ medicine.php?action=update&id=$1 [L]
+RewriteRule ^dashboard/medicine/(\w+)/delete$ medicine.php?action=delete&id=$1 [L]
