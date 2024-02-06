@@ -10,7 +10,7 @@ $menuItems = [
   [
     'url' => url('/dashboard'),
     'icon' => 'bx bx-home',
-    'text' => 'Dasbor',
+    'text' => 'Dashboard',
   ],
   [
     'header' => true,
@@ -47,7 +47,7 @@ $menuItems = [
         'text' => 'Semua Data Ternak',
       ],
       [
-        'url' => url('/dashboard/farm'),
+        'url' => url('/dashboard/farm/create'),
         'text' => 'Tambah Ternak baru',
       ],
     ],

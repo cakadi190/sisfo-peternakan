@@ -30,6 +30,12 @@ require_once __DIR__ . '/helper/color.php';
 require_once __DIR__ . '/helper/debug.php';
 require_once __DIR__ . '/helper/urls.php';
 
+// Change Locale
+date_default_timezone_set('Asia/Jakarta');
+ini_set('date.timezone', 'Asia/Jakarta');
+setlocale(LC_TIME, 'id_ID');
+setlocale(LC_TIME, 'IND');
+
 # Database Initializaition
 # Change with the required credentials an .env file!
 $hostname = "localhost";

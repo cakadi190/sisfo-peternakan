@@ -105,6 +105,22 @@ function checkTheStock($usage, $medId)
 }
 
 /**
+ * Checks if the retrieval date is less than today's date
+ * If yes, redirects back with an error message
+ *
+ * @return void
+ */
+function checkIfLessThanToday()
+{
+  $retrievalDate = Request::post('retrieval_date');
+  $today = date('Y-m-d');
+
+  if ($retrievalDate < $today) {
+    handleErrorRedirect("Tanggal pengambilan obat tidak boleh kurang dari hari ini.");
+  }
+}
+
+/**
  * Handles the submission of the form, including file upload and database insertion
  *
  * @param object $db The database connection object
@@ -122,6 +138,9 @@ function handleFormSubmission($db)
   if($store['quantity_taken'] <= 0) {
     handleErrorRedirect("Nilai jumlah yang diambil harus positif lebih dari nol.");
   }
+
+  // Check if input less than today 
+  checkIfLessThanToday();
 
   // Check medicine stock availability
   checkTheStock(Request::post('quantity_taken'), Request::post('med_id'));

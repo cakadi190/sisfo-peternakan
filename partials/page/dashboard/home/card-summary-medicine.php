@@ -10,7 +10,7 @@ $medicineItems = $medicineData->get_result()->fetch_all(MYSQLI_ASSOC);
       <i class="fas fa-tablets fa-2x"></i>
     </div>
     <div class="ps-3">
-      <h3 class="mb-1"><?= $medicineItems[0]['stock'] ?></h3>
+      <h3 class="mb-1"><?= $medicineItems[0]['stock'] ?? 0 ?></h3>
       <p class="mb-0">Stok Obat</p>
     </div>
   </div>

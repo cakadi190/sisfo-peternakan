@@ -25,7 +25,6 @@ if (Request::isMethod('post')) {
     'contradictions'
   );
 
-
   $medicationData = array_merge($input, [
     'id' => uniqid(),
     'created_at' => date('Y-m-d H:i:s'),

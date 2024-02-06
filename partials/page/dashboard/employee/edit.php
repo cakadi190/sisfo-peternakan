@@ -22,6 +22,9 @@ $roleLists = $dbRoleInit->get_result()->fetch_all(MYSQLI_ASSOC);
 <div class="container-fluid flex-grow-1 container-p-y">
 
   <div class="row justify-content-center">
+    <div class="col-md-3">
+      <a href="<?=url('/dashboard/employee') ?>" class="btn btn-primary"><i class="fas fa-arrow-left"></i></a>
+    </div>
     <div class="col-lg-6">
       <?php include(__DIR__ . '../../../../alert.php'); ?>
 
@@ -59,8 +62,8 @@ $roleLists = $dbRoleInit->get_result()->fetch_all(MYSQLI_ASSOC);
                 <option <?=$userListsResult['role'] === $role['id'] ? 'selected' : '' ?> value="<?=$role['id'] ?>"><?=$role['name'] ?></option>
                 <?php endforeach;
               else : ?>
-                <option <?=$userListsResult['role'] === $role['id'] ? '2' : '' ?> value="2">Karyawan</option>
-                <option <?=$userListsResult['role'] === $role['id'] ? '1' : '' ?> value="1">Administrator</option>
+                <option <?=$userListsResult['role'] === $role['id'] ? 'selected' : '' ?> value="2">Karyawan</option>
+                <option <?=$userListsResult['role'] === $role['id'] ? 'selected' : '' ?> value="1">Administrator</option>
               <?php endif; ?>
             </select>
           </div>
@@ -69,6 +72,7 @@ $roleLists = $dbRoleInit->get_result()->fetch_all(MYSQLI_ASSOC);
         </form>
       </div>
     </div>
+    <div class="col-md-3">&nbsp;</div>
   </div>
 
 </div>

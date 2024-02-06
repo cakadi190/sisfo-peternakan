@@ -19,6 +19,9 @@ $medicines = $medList->get_result()->fetch_all(MYSQLI_ASSOC);
 <div class="container-fluid flex-grow-1 container-p-y">
 
   <div class="row justify-content-center">
+    <div class="col-md-3">
+      <a href="<?=url('/dashboard/medicine-usage') ?>" class="btn btn-primary"><i class="fas fa-arrow-left"></i></a>
+    </div>
     <div class="col-lg-6">
       <?php include(__DIR__ . '../../../../alert.php'); ?>
 
@@ -70,6 +73,7 @@ $medicines = $medList->get_result()->fetch_all(MYSQLI_ASSOC);
 
       </div>
     </div>
+    <div class="col-md-3">&nbsp;</div>
   </div>
 
 </div>

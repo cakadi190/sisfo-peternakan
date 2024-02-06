@@ -1,7 +1,15 @@
 <?php
 
+use function inc\helper\auth;
+use function inc\helper\dd;
+use function inc\helper\isLightColor;
 use function inc\helper\url;
 
+include_once(__DIR__ . '/../../../../templates/panel/header.php');
+
+$user = $auth->user();
+
+// Get All Stored Medicines
 $dbInit = $db->getConnection()->prepare("SELECT farm_category.*, 
                                         COUNT(farms.id) AS total_data, 
                                         SUM(CASE WHEN farms.status = 'hidup' THEN 1 ELSE 0 END) AS alive,
@@ -12,26 +20,33 @@ $dbInit = $db->getConnection()->prepare("SELECT farm_category.*,
 $dbInit->execute();
 $farmCategory = $dbInit->get_result()->fetch_all(MYSQLI_ASSOC);
 ?>
-<div class="card card-body">
-  <div class="d-flex justify-content-between mb-3">
-    <h3 class="mb-0">Data Hewan Ternak</h3>
-    <a href="<?= url('/dashboard/farm') ?>" class="btn btn-primary">Lihat Semua</a>
+
+<div class="container-fluid flex-grow-1 container-p-y">
+  <div class="d-flex mb-3 align-items-center justify-content-between">
+    <h1 class="mb-0">Data Obat</h1>
+    <a href="<?= url('/dashboard/farm-category/create') ?>" class="btn btn-primary">Tambah Data Baru</a>
   </div>
 
-  <div class="table-responsive border rounded-3">
-    <table class="table table-striped">
+  <?php include(__DIR__ . '/../../../alert.php') ?>
+
+  <div class="card card-body table-responsive">
+    <table class="tables table table-striped border" style="border-radius: .5rem">
       <thead>
         <tr>
-          <th>Nama</th>
-          <th>Ras</th>
-          <th style="width: 50%">Populasi</th>
+          <th style="width: auto">Nama Kategori</th>
+          <th style="width: auto">Warna Kategori</th>
+          <th style="width: auto">Ras</th>
+          <th style="width: 30%">Populasi</th>
+          <th style="width: auto">Berat</th>
+          <th style="width: 15%">Aksi</th>
         </tr>
       </thead>
       <tbody>
         <?php if (!empty($farmCategory)) : foreach ($farmCategory as $farm) : ?>
             <tr>
               <td><?= $farm['category_name'] ?></td>
-              <td><?=$farm['race'] ?></td>
+              <td><span class="badge font-monospace" style="background: <?= $farm['color'] ?>;color: <?= isLightColor($farm['color']) ?>;"><?= $farm['color'] ?></span></td>
+              <td><?= $farm['race'] ?></td>
               <td>
                 <strong><?= $farm['alive'] ?> ekor</strong>
                 <?php if($farm['alive'] > 0): ?>
@@ -48,6 +63,13 @@ $farmCategory = $dbInit->get_result()->fetch_all(MYSQLI_ASSOC);
                 </div>
                 <?php endif; ?>
               </td>
+              <td><?= ucwords($farm['weight_class']) ?></td>
+              <td>
+                <div class="btn-group-sm btn-group">
+                  <a href="<?= url("/dashboard/farm-category/{$farm['id']}/edit") ?>" class="btn btn-success"><i class="bx bx-pencil"></i></a>
+                  <a href="<?= url("/dashboard/farm-category/{$farm['id']}/delete") ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus data obat ini?')" class="btn btn-danger"><i class="bx bx-trash"></i></a>
+                </div>
+              </td>
             </tr>
           <?php endforeach;
         else : ?>
@@ -58,4 +80,8 @@ $farmCategory = $dbInit->get_result()->fetch_all(MYSQLI_ASSOC);
       </tbody>
     </table>
   </div>
+
 </div>
+<?php
+include_once(__DIR__ . '/../../../../templates/panel/footer.php');
+?>
