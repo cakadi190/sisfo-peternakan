@@ -16,12 +16,10 @@
 
 
 -- Dumping database structure for bbib_crud
-DROP DATABASE IF EXISTS `bbib_crud`;
 CREATE DATABASE IF NOT EXISTS `bbib_crud` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `bbib_crud`;
 
 -- Dumping structure for table bbib_crud.animal_medicine
-DROP TABLE IF EXISTS `animal_medicine`;
 CREATE TABLE IF NOT EXISTS `animal_medicine` (
   `id` varchar(36) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -42,7 +40,6 @@ CREATE TABLE IF NOT EXISTS `animal_medicine` (
 -- Dumping data for table bbib_crud.animal_medicine: ~0 rows (approximately)
 
 -- Dumping structure for table bbib_crud.barn_categories
-DROP TABLE IF EXISTS `barn_categories`;
 CREATE TABLE IF NOT EXISTS `barn_categories` (
   `id` varchar(191) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -51,18 +48,20 @@ CREATE TABLE IF NOT EXISTS `barn_categories` (
   `description` longtext,
   `vendor` enum('local','outside') DEFAULT 'local',
   `vendor_name` varchar(191) DEFAULT NULL,
+  `stock` bigint DEFAULT '0',
+  `entrance_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Komoditas gudang bahan pakan ternak';
 
 -- Dumping data for table bbib_crud.barn_categories: ~0 rows (approximately)
 
--- Dumping structure for table bbib_crud.barn_stocks
-DROP TABLE IF EXISTS `barn_stocks`;
-CREATE TABLE IF NOT EXISTS `barn_stocks` (
+-- Dumping structure for table bbib_crud.barn_retrieval
+CREATE TABLE IF NOT EXISTS `barn_retrieval` (
   `id` varchar(50) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `categories` varchar(191) NOT NULL,
+  `retrieval_date` date DEFAULT NULL,
   `taken_by` int DEFAULT NULL,
   `quantity_taken` bigint unsigned DEFAULT '0',
   `evidence` varchar(255) DEFAULT NULL,
@@ -71,12 +70,11 @@ CREATE TABLE IF NOT EXISTS `barn_stocks` (
   KEY `categories_constraint_barnstocks` (`categories`),
   CONSTRAINT `categories_constraint_barnstocks` FOREIGN KEY (`categories`) REFERENCES `barn_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `users_constraint_barnstocks` FOREIGN KEY (`taken_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Stocks in the barn related to categories and users';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data pengambilan stok pakan';
 
--- Dumping data for table bbib_crud.barn_stocks: ~0 rows (approximately)
+-- Dumping data for table bbib_crud.barn_retrieval: ~0 rows (approximately)
 
 -- Dumping structure for table bbib_crud.farms
-DROP TABLE IF EXISTS `farms`;
 CREATE TABLE IF NOT EXISTS `farms` (
   `id` varchar(191) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -98,7 +96,6 @@ CREATE TABLE IF NOT EXISTS `farms` (
 -- Dumping data for table bbib_crud.farms: ~0 rows (approximately)
 
 -- Dumping structure for table bbib_crud.farm_category
-DROP TABLE IF EXISTS `farm_category`;
 CREATE TABLE IF NOT EXISTS `farm_category` (
   `id` varchar(36) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -113,7 +110,6 @@ CREATE TABLE IF NOT EXISTS `farm_category` (
 -- Dumping data for table bbib_crud.farm_category: ~0 rows (approximately)
 
 -- Dumping structure for table bbib_crud.medication_retrieval
-DROP TABLE IF EXISTS `medication_retrieval`;
 CREATE TABLE IF NOT EXISTS `medication_retrieval` (
   `id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -133,7 +129,6 @@ CREATE TABLE IF NOT EXISTS `medication_retrieval` (
 -- Dumping data for table bbib_crud.medication_retrieval: ~0 rows (approximately)
 
 -- Dumping structure for table bbib_crud.roles
-DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) NOT NULL DEFAULT 'Administrator',
@@ -147,7 +142,6 @@ INSERT IGNORE INTO `roles` (`id`, `name`, `color`) VALUES
 	(2, 'Karyawan', '#EBD2A9');
 
 -- Dumping structure for table bbib_crud.users
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -164,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `unique_phone` (`phone`),
   KEY `constraint_users_to_roles` (`role`),
   CONSTRAINT `constraint_users_to_roles` FOREIGN KEY (`role`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data karyawan dan pengguna';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data karyawan dan pengguna';
 
 -- Dumping data for table bbib_crud.users: ~1 rows (approximately)
 INSERT IGNORE INTO `users` (`id`, `created_at`, `updated_at`, `full_name`, `address`, `role`, `phone`, `email`, `password`, `remember_token`) VALUES

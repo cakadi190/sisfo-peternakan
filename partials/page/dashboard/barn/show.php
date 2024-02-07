@@ -28,7 +28,7 @@ $barnResult = $barn->get_result()->fetch_assoc();
 
 <div class="container-fluid flex-grow-1 container-p-y">
   <div class="d-flex mb-3 align-items-center justify-content-between">
-    <h1 class="mb-0">Detail Pengambilan Obat</h1>
+    <h1 class="mb-0">Detail Pengambilan Pakan</h1>
 
     <div class="btn-group-sm btn-group">
       <a href="<?= url("/dashboard/barn") ?>" class="btn btn-primary"><i class="bx bx-chevron-left"></i></a>
@@ -51,7 +51,7 @@ $barnResult = $barn->get_result()->fetch_assoc();
               <td><?= (new DateTime($barnResult['updated_at']))->format('l, j F Y'); ?></td>
             </tr>
             <tr>
-              <th>Nama Obat</th>
+              <th>Nama Pakan</th>
               <td>
                 <a href="<?= url("/dashboard/barn-category/{$barnResult['barn_id']}/show") ?>"><?= $barnResult['barn_name'] ?></a>
               </td>
@@ -68,7 +68,7 @@ $barnResult = $barn->get_result()->fetch_assoc();
             </tr>
             <tr>
               <th>Jumlah Pengambilan</th>
-              <td><?= $barnResult['quantity_taken'] ?> Obat</td>
+              <td><?= $barnResult['quantity_taken'] ?> Pakan</td>
             </tr>
             <tr>
               <th>Bukti</th>
