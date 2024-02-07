@@ -64,14 +64,6 @@ $menuItems = [
       ],
       [
         'url' => url('/dashboard/barn'),
-        'text' => 'Semua Data',
-      ],
-      [
-        'url' => url('/dashboard/barn'),
-        'text' => 'Tambah Pakan',
-      ],
-      [
-        'url' => url('/dashboard/barn'),
         'text' => 'Ambil Pakan',
       ],
     ],

@@ -40,7 +40,40 @@ CREATE TABLE IF NOT EXISTS `animal_medicine` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data obat-obatan ternak';
 
 -- Dumping data for table bbib_crud.animal_medicine: ~0 rows (approximately)
-DELETE FROM `animal_medicine`;
+
+-- Dumping structure for table bbib_crud.barn_categories
+DROP TABLE IF EXISTS `barn_categories`;
+CREATE TABLE IF NOT EXISTS `barn_categories` (
+  `id` varchar(191) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `barn_name` varchar(191) DEFAULT 'CURRENT_TIMESTAMP',
+  `description` longtext,
+  `vendor` enum('local','outside') DEFAULT 'local',
+  `vendor_name` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Komoditas gudang bahan pakan ternak';
+
+-- Dumping data for table bbib_crud.barn_categories: ~0 rows (approximately)
+
+-- Dumping structure for table bbib_crud.barn_stocks
+DROP TABLE IF EXISTS `barn_stocks`;
+CREATE TABLE IF NOT EXISTS `barn_stocks` (
+  `id` varchar(50) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `categories` varchar(191) NOT NULL,
+  `taken_by` int DEFAULT NULL,
+  `quantity_taken` bigint unsigned DEFAULT '0',
+  `evidence` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `users_constraint_barnstocks` (`taken_by`),
+  KEY `categories_constraint_barnstocks` (`categories`),
+  CONSTRAINT `categories_constraint_barnstocks` FOREIGN KEY (`categories`) REFERENCES `barn_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `users_constraint_barnstocks` FOREIGN KEY (`taken_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Stocks in the barn related to categories and users';
+
+-- Dumping data for table bbib_crud.barn_stocks: ~0 rows (approximately)
 
 -- Dumping structure for table bbib_crud.farms
 DROP TABLE IF EXISTS `farms`;
@@ -54,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `farms` (
   `entrance_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `status` enum('terjual','mati','hidup') DEFAULT 'hidup',
   `pic` int DEFAULT NULL,
+  `gender` enum('jantan','betina') DEFAULT 'jantan',
   PRIMARY KEY (`id`),
   KEY `farms_category_relation` (`category`),
   KEY `farms_users_relation` (`pic`),
@@ -62,7 +96,6 @@ CREATE TABLE IF NOT EXISTS `farms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data hewan ternak';
 
 -- Dumping data for table bbib_crud.farms: ~0 rows (approximately)
-DELETE FROM `farms`;
 
 -- Dumping structure for table bbib_crud.farm_category
 DROP TABLE IF EXISTS `farm_category`;
@@ -75,10 +108,9 @@ CREATE TABLE IF NOT EXISTS `farm_category` (
   `weight_class` enum('berat','sedang','ringan') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'ringan',
   `race` varchar(191) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Kategori hewan ternak';
 
 -- Dumping data for table bbib_crud.farm_category: ~0 rows (approximately)
-DELETE FROM `farm_category`;
 
 -- Dumping structure for table bbib_crud.medication_retrieval
 DROP TABLE IF EXISTS `medication_retrieval`;
@@ -99,7 +131,6 @@ CREATE TABLE IF NOT EXISTS `medication_retrieval` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data pengambilan obat-obatan ternak';
 
 -- Dumping data for table bbib_crud.medication_retrieval: ~0 rows (approximately)
-DELETE FROM `medication_retrieval`;
 
 -- Dumping structure for table bbib_crud.roles
 DROP TABLE IF EXISTS `roles`;
@@ -111,8 +142,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Role user and reference into user';
 
 -- Dumping data for table bbib_crud.roles: ~2 rows (approximately)
-DELETE FROM `roles`;
-INSERT INTO `roles` (`id`, `name`, `color`) VALUES
+INSERT IGNORE INTO `roles` (`id`, `name`, `color`) VALUES
 	(1, 'Administrator', '#ea6213'),
 	(2, 'Karyawan', '#EBD2A9');
 
@@ -137,9 +167,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data karyawan dan pengguna';
 
 -- Dumping data for table bbib_crud.users: ~1 rows (approximately)
-DELETE FROM `users`;
-INSERT INTO `users` (`id`, `created_at`, `updated_at`, `full_name`, `address`, `role`, `phone`, `email`, `password`, `remember_token`) VALUES
-	(1, '2024-02-06 11:48:28', '2024-02-06 17:39:56', 'System Administrator', 'Jl. BBIB No.1, Ds. Toyomarto,Kec. Singosari, Malang 65153\r\nJawa Timur Indonesia', 1, '+6285895679267', 'bbib.singosari@pertanian.go.id', '$2a$12$23hZ.8hmVw07XOS80BgoDevV3QpBJu0o78ckY6ZotTScdTKcF5Ja.', '08274ff31a7fe3e3dd9f74841cb1a343a87a75706b0671e749bd72994bf37664955731903a232cf15d4044afa02a3fa2ac91fa1caf4f84c7043a76bff8fde9b9');
+INSERT IGNORE INTO `users` (`id`, `created_at`, `updated_at`, `full_name`, `address`, `role`, `phone`, `email`, `password`, `remember_token`) VALUES
+	(1, '2024-02-06 11:48:28', '2024-02-07 01:21:27', 'System Administrator', 'Jl. BBIB No.1, Ds. Toyomarto,Kec. Singosari, Malang 65153\r\nJawa Timur Indonesia', 1, '+6285895679267', 'bbib.singosari@pertanian.go.id', '$2a$12$23hZ.8hmVw07XOS80BgoDevV3QpBJu0o78ckY6ZotTScdTKcF5Ja.', 'e69e512344f8d93ab2164501a16800386ca7eca26a6e31b55369a5dae61c62ea28fdd1e282d4879f59775aaf8aa1bd72ac871a6c4d82df302c9d8dd1e454f8e4');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
