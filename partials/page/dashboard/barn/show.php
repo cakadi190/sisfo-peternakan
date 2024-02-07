@@ -2,6 +2,7 @@
 
 use function inc\helper\asset;
 use function inc\helper\dd;
+use function inc\helper\indonesiaDate;
 use function inc\helper\url;
 
 include_once(__DIR__ . '/../../../../templates/panel/header.php');
@@ -44,11 +45,11 @@ $barnResult = $barn->get_result()->fetch_assoc();
           <tbody>
             <tr>
               <th>Data Masuk Pada</th>
-              <td><?= (new DateTime($barnResult['created_at']))->format('l, j F Y'); ?></td>
+              <td><?= indonesiaDate($barnResult['created_at']) ?></td>
             </tr>
             <tr>
               <th>Data Diperbaharui Pada</th>
-              <td><?= (new DateTime($barnResult['updated_at']))->format('l, j F Y'); ?></td>
+              <td><?= indonesiaDate($barnResult['updated_at']) ?></td>
             </tr>
             <tr>
               <th>Nama Pakan</th>
@@ -64,7 +65,7 @@ $barnResult = $barn->get_result()->fetch_assoc();
             </tr>
             <tr>
               <th>Diambil Pada</th>
-              <td><?= (new DateTime($barnResult['retrieval_date']))->format('l, j F Y'); ?></td>
+              <td><?= indonesiaDate($barnResult['retrieval_date']); ?></td>
             </tr>
             <tr>
               <th>Jumlah Pengambilan</th>

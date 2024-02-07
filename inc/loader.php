@@ -28,6 +28,7 @@ require_once __DIR__ . '/classes/Validator.php';
 require_once __DIR__ . '/helper/auth.php';
 require_once __DIR__ . '/helper/color.php';
 require_once __DIR__ . '/helper/debug.php';
+require_once __DIR__ . '/helper/other.php';
 require_once __DIR__ . '/helper/urls.php';
 
 // Change Locale

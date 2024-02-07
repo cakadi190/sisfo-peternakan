@@ -1,6 +1,7 @@
 <?php
 
 use function inc\helper\asset;
+use function inc\helper\indonesiaDate;
 use function inc\helper\url;
 
 include_once(__DIR__ . '/../../../../templates/panel/header.php');
@@ -32,11 +33,11 @@ $userListsResult = $userLists->get_result()->fetch_assoc();
           <tbody>
             <tr>
               <th>Data Masuk Pada</th>
-              <td><?= date_format(date_create($userListsResult['created_at']), 'l, j F Y H:i:s') ?></td>
+              <td><?= indonesiaDate($userListsResult['created_at'], true) ?></td>
             </tr>
             <tr>
               <th>Data Diperbaharui Pada</th>
-              <td><?= date_format(date_create($userListsResult['updated_at']), 'l, j F Y H:i:s') ?></td>
+              <td><?= indonesiaDate($userListsResult['updated_at'], true) ?></td>
             </tr>
             <tr>
               <th>Nama Lengkap</th>

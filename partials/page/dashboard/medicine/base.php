@@ -2,6 +2,7 @@
 
 use function inc\helper\auth;
 use function inc\helper\dd;
+use function inc\helper\indonesiaDate;
 use function inc\helper\url;
 
 include_once(__DIR__ . '/../../../../templates/panel/header.php');
@@ -69,8 +70,8 @@ $type = [
                 <div class="pt-2"><?= $medicineItem['contradictions'] ? $medicineItem['contradictions'] : '<span class="text-muted"><i class="fas fa-info-circle me-1"></i>Tidak ada kontradiksi penggunaan</span>' ?></div>
               </td>
               <td><?= $type[$medicineItem['medication_type']] ?></td>
-              <td><?= date('l, j F Y', strtotime($medicineItem['buy_date'])) ?></td>
-              <td><?= date('l, j F Y', strtotime($medicineItem['expiration_date'])) ?></td>
+              <td><?= indonesiaDate($medicineItem['buy_date']) ?></td>
+              <td><?= indonesiaDate($medicineItem['expiration_date']) ?></td>
               <td><?= $medicineItem['vendor'] ?></td>
               <td>
                 <div class="progress mb-2" style="height: 20px;">

@@ -2,6 +2,7 @@
 
 use function inc\helper\auth;
 use function inc\helper\dd;
+use function inc\helper\indonesiaDate;
 use function inc\helper\isLightColor;
 use function inc\helper\url;
 
@@ -108,7 +109,7 @@ $status = [
                 </span>
               </td>
               <td><?= $farm['farm_shed'] ?></td>
-              <td><?= (new DateTime($farm['entrance_date']))->format('l, j F Y H.i.s') ?></td>
+              <td><?= indonesiaDate($farm['entrance_date'], true) ?></td>
               <td>
                 <span class="<?= $status[$farm['status']]['class'] ?>"><?= $status[$farm['status']]['label'] ?></span>
               </td>

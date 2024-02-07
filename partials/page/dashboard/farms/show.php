@@ -2,6 +2,7 @@
 
 use function inc\helper\asset;
 use function inc\helper\auth;
+use function inc\helper\indonesiaDate;
 use function inc\helper\isLightColor;
 use function inc\helper\url;
 
@@ -98,7 +99,7 @@ $status = [
             </tr>
             <tr>
               <th style="width: 30%">Tanggal Masuk</th>
-              <td><?= date('l, j F Y', strtotime($farmData['entrance_date'])) ?></td>
+              <td><?= indonesiaDate($farmData['entrance_date'], true) ?></td>
             </tr>
             <tr>
               <th style="width: 30%">Kategori dan Ras</th>

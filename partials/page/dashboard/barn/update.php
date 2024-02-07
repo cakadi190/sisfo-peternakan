@@ -36,6 +36,29 @@ if (Request::isMethod('post')) {
 }
 
 /**
+ * Deleting previous image
+ * 
+ * @return void
+ */
+function deleteLastImage() {
+  global $db;
+
+  // Sanitize input
+  $sanitizedId = Sanitize::sanitizeInput($_GET['id']);
+
+  $getTheQuery = $db->getConnection()->prepare("SELECT * FROM `barn_retrieval` WHERE `id` = ?");
+  $getTheQuery->bind_param('s', $sanitizedId); // Pass the sanitized id variable
+  $getTheQuery->execute();
+
+  $data = $getTheQuery->get_result()->fetch_all(MYSQLI_ASSOC);
+  $path = __DIR__ . "/../../../../uploads/{$data[0]['evidence']}";
+
+  if(file_exists($path)) {
+    unlink($path);
+  }
+}
+
+/**
  * Uploads the file and returns the generated filename
  *
  * @param array $file The uploaded file data
@@ -97,7 +120,7 @@ function checkTheStock($usage, $medId)
   // Calculate the new stock value
   $currentStock = $dataStock['stock'];
   $totalQuantityTaken = $dataTotalQuantity['total_quantity'];
-  $newStock = $currentStock - ($totalQuantityTaken + intval($usage));
+  $newStock = $currentStock - $totalQuantityTaken;
 
   if ($newStock < 0) {
     return handleErrorRedirect("Maaf, stok pakan tidak cukup. Mohon beritahu bagian gudang untuk mengisi ulang stok pakan ke dalam gudang pakan.");
@@ -147,6 +170,10 @@ function handleFormSubmission($db)
 
   // If has file is selected for upload
   if ($fileInfo['full_path'] !== "") {
+    // Delete last image
+    deleteLastImage();
+
+    // Upload new file
     $fullFilename = uploadTheFile($fileInfo);
     $store['evidence'] = $fullFilename;
   }

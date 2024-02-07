@@ -27,6 +27,29 @@ if (!auth()->check()) {
   redirect('/dashboard');
 }
 
+/**
+ * Deleting previous image
+ * 
+ * @return void
+ */
+function deleteLastImage() {
+  global $db;
+
+  // Sanitize input
+  $sanitizedId = Sanitize::sanitizeInput($_GET['id']);
+
+  $getTheQuery = $db->getConnection()->prepare("SELECT * FROM `medication_retrieval` WHERE `id` = ?");
+  $getTheQuery->bind_param('s', $sanitizedId); // Pass the sanitized id variable
+  $getTheQuery->execute();
+
+  $data = $getTheQuery->get_result()->fetch_all(MYSQLI_ASSOC);
+  $path = __DIR__ . "/../../../../uploads/{$data[0]['evidence']}";
+
+  if(file_exists($path)) {
+    unlink($path);
+  }
+}
+
 // Check if the form is submitted via POST method
 if (Request::isMethod('post')) {
   handleFormSubmission($db);
@@ -147,6 +170,10 @@ function handleFormSubmission($db)
 
   // If has file is selected for upload
   if ($fileInfo['full_path'] !== "") {
+    // Delete last image
+    deleteLastImage();
+
+    // Upload new one
     $fullFilename = uploadTheFile($fileInfo);
     $store['evidence'] = $fullFilename;
   }

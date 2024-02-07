@@ -1,6 +1,7 @@
 <?php
 
 use function inc\helper\auth;
+use function inc\helper\indonesiaDate;
 use function inc\helper\url;
 
 // Get All Stored Users
@@ -34,10 +35,10 @@ $barnCategories = $dbInit->get_result()->fetch_all(MYSQLI_ASSOC);
               <td>
                 <strong><?= $barn['barn_name'] ?></strong>
               </td>
-              <td><?= (new DateTime($barn['entrance_date'] ?? date('Y-m-d H.i.s')))->format('l, j F Y H.i.s') ?></td>
+              <td><?= indonesiaDate($barn['entrance_date'] ?? date('Y-m-d H.i.s'), true) ?></td>
               <td>
                 <?php if ($barn['vendor'] === 'local') : ?>
-                  Pemasok Lokal
+                  Pemasok Lokal (BBIB Singosari)
                 <?php else : echo $barn['vendor_name'] ?>
                 <?php endif; ?>
               </td>

@@ -2,6 +2,7 @@
 
 use function inc\helper\auth;
 use function inc\helper\dd;
+use function inc\helper\indonesiaDate;
 use function inc\helper\url;
 
 include_once(__DIR__ . '/../../../../templates/panel/header.php');
@@ -66,7 +67,7 @@ $barns = $dbInit->get_result()->fetch_all(MYSQLI_ASSOC);
         <?php if (!empty($barns) && isset($barns)) : foreach ($barns as $barn) : ?>
             <tr>
               <td><a href="<?= url("/dashboard/medicine/{$barn['barn_id']}/show") ?>"><?= $barn['barn_name'] ?></a></td>
-              <td><?= (new DateTime($barn['retrieval_date']))->format('l, j F Y') ?></td>
+              <td><?= indonesiaDate($barn['retrieval_date']) ?></td>
               <td><?= $barn['quantity_taken'] ?> Pakan</td>
               <?php if (auth()->user()['role'] === 1) : ?>
                 <td><a href="<?= url("/dashboard/employee/{$barn['user_id']}/show") ?>"><?= $barn['full_name'] ?></a></td>

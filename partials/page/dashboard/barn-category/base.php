@@ -42,7 +42,7 @@ $barnCategories = $dbInit->get_result()->fetch_all(MYSQLI_ASSOC);
             <tr>
               <td>
                 <strong><?= $barn['barn_name'] ?></strong>
-                <div class="pt-2"><?= $barn['description'] ? $barn['description'] : '<i class="fas fa-info-circle me-2"></i> Tidak ada deskripsi' ?></div>
+                <div class="pt-2"><?= $barn['description'] ? $barn['description'] : '<span class="text-muted"><i class="fas fa-info-circle me-1"></i>Tidak ada penjelasan detail</span>' ?></div>
               </td>
               <td><?= (new DateTime($barn['entrance_date'] ?? date('Y-m-d H.i.s')))->format('l, j F Y H.i.s') ?></td>
               <td>
