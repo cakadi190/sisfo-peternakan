@@ -24,7 +24,7 @@ include_once(__DIR__ . '/../../../../templates/panel/header.php');
             <input type="text" class="form-control" id="barn_name" name="barn_name" placeholder="Mis: Padi Varietas A" />
           </div>
           <div class="form-group mb-2">
-            <label for="description">Deskripsi</label>
+            <label for="description">Deskripsi (opsional)</label>
             <textarea class="form-control" id="description" name="description" placeholder="Mis: Data komoditas padi varietas unggul"></textarea>
           </div>
           <div class="form-group mb-2">

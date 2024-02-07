@@ -29,7 +29,7 @@ $barnData = $barnInit->get_result()->fetch_assoc();
             <input type="text" class="form-control" value="<?=$barnData['barn_name'] ?>" id="barn_name" name="barn_name" placeholder="Mis: Padi Varietas A" />
           </div>
           <div class="form-group mb-2">
-            <label for="description">Deskripsi</label>
+            <label for="description">Deskripsi (opsional)</label>
             <textarea class="form-control" id="description" name="description" placeholder="Mis: Data komoditas padi varietas unggul"><?=$barnData['description'] ?></textarea>
           </div>
           <div class="form-group mb-2">

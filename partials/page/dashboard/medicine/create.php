@@ -80,7 +80,7 @@ include_once(__DIR__ . '/../../../../templates/panel/header.php');
           </div>
 
           <div class="form-group mb-2">
-            <label for="contradictions">Kontraindikasi dan Efek Samping</label>
+            <label for="contradictions">Kontraindikasi dan Efek Samping (opsional)</label>
             <textarea class="form-control" id="contradictions" name="contradictions" rows="3"></textarea>
           </div>
 

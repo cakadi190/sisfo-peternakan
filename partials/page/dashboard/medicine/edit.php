@@ -86,7 +86,7 @@ $medicineDataResult = $medicineData->get_result()->fetch_assoc();
           </div>
 
           <div class="form-group mb-2">
-            <label for="contradictions">Kontraindikasi dan Efek Samping</label>
+            <label for="contradictions">Kontraindikasi dan Efek Samping (opsional)</label>
             <textarea class="form-control" id="contradictions" name="contradictions" rows="3"><?=$medicineDataResult['contradictions'] ?></textarea>
           </div>
 
