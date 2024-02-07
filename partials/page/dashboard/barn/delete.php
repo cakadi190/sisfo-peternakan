@@ -5,7 +5,7 @@ use function inc\helper\redirect;
 function redirectToDashboard($message)
 {
   $_SESSION['error'] = $message;
-  redirect('/dashboard/medicine-usage');
+  redirect('/dashboard/barn');
 }
 
 function getFileFullPath($filename)
@@ -23,7 +23,7 @@ function deleteFileIfExists($filename)
 
 function deleteMedicationData($db, $id)
 {
-  $stmt = $db->getConnection()->prepare("DELETE FROM medication_retrieval WHERE id = ?");
+  $stmt = $db->getConnection()->prepare("DELETE FROM barn_retrieval WHERE id = ?");
   $stmt->bind_param('s', $id);
   return $stmt->execute();
 }
@@ -31,25 +31,25 @@ function deleteMedicationData($db, $id)
 $id = $_GET['id'] ?? null;
 
 if (!$id) {
-  redirectToDashboard("ID target data pengambilan Obat Ternak tidak diberikan!");
+  redirectToDashboard("ID target data pengambilan Pakan Ternak tidak diberikan!");
 }
 
-$stmt = $db->getConnection()->prepare("SELECT evidence FROM medication_retrieval WHERE id = ?");
+$stmt = $db->getConnection()->prepare("SELECT evidence FROM barn_retrieval WHERE id = ?");
 $stmt->bind_param('s', $id);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-  redirectToDashboard("Data pengambilan Obat Ternak dengan ID tersebut tidak ditemukan!");
+  redirectToDashboard("Data pengambilan Pakan Ternak dengan ID tersebut tidak ditemukan!");
 }
 
 $rowData = $result->fetch_assoc();
 deleteFileIfExists($rowData['evidence']);
 
 if (deleteMedicationData($db, $id)) {
-  $_SESSION['success'] = "Berhasil menghapus data pengambilan Obat Ternak!";
+  $_SESSION['success'] = "Berhasil menghapus data pengambilan Pakan Ternak!";
 } else {
-  $_SESSION['error'] = "Gagal menghapus data pengambilan Obat Ternak!";
+  $_SESSION['error'] = "Gagal menghapus data pengambilan Pakan Ternak!";
 }
 
-redirect('/dashboard/medicine-usage');
+redirect('/dashboard/barn');

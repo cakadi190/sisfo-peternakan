@@ -60,7 +60,7 @@ $menuItems = [
     'subMenu' => [
       [
         'url' => url('/dashboard/barn-category'),
-        'text' => 'Kategori Pakan Ternak',
+        'text' => 'Komoditas Pakan',
       ],
       [
         'url' => url('/dashboard/barn'),
