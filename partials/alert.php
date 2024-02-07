@@ -5,8 +5,8 @@ use function inc\helper\dd;
 function displayMessages()
 {
   $types = [
-    'error' => ['title' => 'Galat', 'class' => 'danger'],
-    'danger' => ['title' => 'Galat', 'class' => 'danger'],
+    'error' => ['title' => 'Gagal', 'class' => 'danger'],
+    'danger' => ['title' => 'Gagal', 'class' => 'danger'],
     'info' => ['title' => 'Informasi', 'class' => 'info'],
     'warning' => ['title' => 'Peringatan', 'class' => 'warning'],
     'success' => ['title' => 'Berhasil', 'class' => 'success']

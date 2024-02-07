@@ -90,7 +90,7 @@ $user = $auth->user();
 
         <div class="menu-inner-shadow"></div>
 
-        <?php include_once(__DIR__ . '/sidebar.php'); ?>
+        <?php include_once(__DIR__ . '/../../partials/sidebar.php'); ?>
 
       </aside>
       <!-- / Menu -->

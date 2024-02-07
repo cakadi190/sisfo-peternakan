@@ -1,6 +1,7 @@
 <?php
 
 use function inc\helper\asset;
+use function inc\helper\indonesiaDate;
 use function inc\helper\url;
 
 include_once(__DIR__ . '/../../../../templates/panel/header.php');
@@ -90,7 +91,7 @@ $type = [
             </tr>
             <tr>
               <th style="width: 30%">Tanggal Kadaluarsa</th>
-              <td><?= date('l, j F Y', strtotime($medicineDataResult['expiration_date'])) ?></td>
+              <td><?= indonesiaDate($medicineDataResult['expiration_date']) ?></td>
             </tr>
             <tr>
               <th style="width: 30%">Pemasok</th>

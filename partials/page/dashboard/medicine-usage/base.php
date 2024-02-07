@@ -2,6 +2,7 @@
 
 use function inc\helper\auth;
 use function inc\helper\dd;
+use function inc\helper\indonesiaDate;
 use function inc\helper\url;
 
 include_once(__DIR__ . '/../../../../templates/panel/header.php');
@@ -68,7 +69,7 @@ $medicationRetrievalData = $medicationRetrievalQuery->get_result()->fetch_all(MY
         <?php if (!empty($medicationRetrievalData) && isset($medicationRetrievalData)) : foreach ($medicationRetrievalData as $medRetrieval) : ?>
             <tr>
               <td><a href="<?= url("/dashboard/medicine/{$medRetrieval['medicine_id']}/show") ?>"><?= $medRetrieval['medication_name'] ?></a></td>
-              <td><?= date('l, j F Y', strtotime($medRetrieval['retrieval_date'])) ?></td>
+              <td><?= indonesiaDate($medRetrieval['retrieval_date']) ?></td>
               <td><?= $medRetrieval['quantity_taken'] ?> Obat</td>
               <?php if (auth()->user()['role'] === 1) : ?>
                 <td><a href="<?= url("/dashboard/employee/{$medRetrieval['user_id']}/show") ?>"><?= $medRetrieval['full_name'] ?></a></td>

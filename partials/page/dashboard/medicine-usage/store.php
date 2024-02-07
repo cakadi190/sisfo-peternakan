@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Medication Retrieval Form Handling
  *
@@ -40,7 +41,8 @@ if (Request::isMethod('post')) {
  *
  * @return string The generated filename after successful upload
  */
-function uploadTheFile($file) {
+function uploadTheFile($file)
+{
   $allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
   if (!in_array($file['type'], $allowedImageTypes)) {
@@ -58,7 +60,7 @@ function uploadTheFile($file) {
   }
 
   return $fullFilename;
-} 
+}
 
 /**
  * Checks the available stock for the given medicine and usage quantity
@@ -97,8 +99,24 @@ function checkTheStock($usage, $medId)
   $totalQuantityTaken = $dataTotalQuantity['total_quantity'];
   $newStock = $currentStock - ($totalQuantityTaken + intval($usage));
 
-  if($newStock < 0) {
+  if ($newStock < 0) {
     return handleErrorRedirect("Maaf, stok obat tidak cukup. Mohon beritahu bagian gudang untuk mengisi ulang stok obat ke dalam gudang Obat.");
+  }
+}
+
+/**
+ * Checks if the retrieval date is less than today's date
+ * If yes, redirects back with an error message
+ *
+ * @return void
+ */
+function checkIfLessThanToday()
+{
+  $retrievalDate = Request::post('retrieval_date');
+  $today = date('Y-m-d');
+
+  if ($retrievalDate < $today) {
+    handleErrorRedirect("Tanggal pengambilan obat tidak boleh kurang dari hari ini.");
   }
 }
 
@@ -116,9 +134,11 @@ function handleFormSubmission($db)
   $fileInfo = Request::file('evidence');
 
   // Check if there has negative input to prevent bug
-  if($store['quantity_taken'] <= 0) {
+  if ($store['quantity_taken'] <= 0) {
     handleErrorRedirect("Nilai jumlah yang diambil harus positif lebih dari nol.");
   }
+
+  checkIfLessThanToday();
 
   // Check medicine stock availability
   checkTheStock(Request::post('quantity_taken'), Request::post('med_id'));
@@ -146,7 +166,8 @@ function handleFormSubmission($db)
  *
  * @return void
  */
-function handleSuccessRedirect($message) {
+function handleSuccessRedirect($message)
+{
   $_SESSION['success'] = $message;
   redirect('/dashboard/medicine-usage');
   exit();

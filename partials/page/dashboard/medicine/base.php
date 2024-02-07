@@ -2,6 +2,7 @@
 
 use function inc\helper\auth;
 use function inc\helper\dd;
+use function inc\helper\indonesiaDate;
 use function inc\helper\url;
 
 include_once(__DIR__ . '/../../../../templates/panel/header.php');
@@ -9,12 +10,10 @@ include_once(__DIR__ . '/../../../../templates/panel/header.php');
 $user = $auth->user();
 
 // Get All Stored Medicines
-$medicineData = $db->getConnection()->prepare("
-  SELECT am.*, COALESCE(SUM(mr.quantity_taken), 0) AS total_quantity_taken
+$medicineData = $db->getConnection()->prepare("SELECT am.*, COALESCE(SUM(mr.quantity_taken), 0) AS total_quantity_taken
   FROM animal_medicine am
   LEFT JOIN medication_retrieval mr ON am.id = mr.med_id
-  GROUP BY am.id
-");
+  GROUP BY am.id");
 $medicineData->execute();
 $medicineItems = $medicineData->get_result()->fetch_all(MYSQLI_ASSOC);
 
@@ -71,8 +70,8 @@ $type = [
                 <div class="pt-2"><?= $medicineItem['contradictions'] ? $medicineItem['contradictions'] : '<span class="text-muted"><i class="fas fa-info-circle me-1"></i>Tidak ada kontradiksi penggunaan</span>' ?></div>
               </td>
               <td><?= $type[$medicineItem['medication_type']] ?></td>
-              <td><?= date('l, j F Y', strtotime($medicineItem['buy_date'])) ?></td>
-              <td><?= date('l, j F Y', strtotime($medicineItem['expiration_date'])) ?></td>
+              <td><?= indonesiaDate($medicineItem['buy_date']) ?></td>
+              <td><?= indonesiaDate($medicineItem['expiration_date']) ?></td>
               <td><?= $medicineItem['vendor'] ?></td>
               <td>
                 <div class="progress mb-2" style="height: 20px;">
@@ -81,7 +80,7 @@ $type = [
                     <?= $remaining ?>% <?= $remaining > 75 ? 'Tersedia' : ($remaining >= 30 && $remaining <= 75 ? 'Tersisa' : ($remaining === 0 ? 'Habis' : 'Tersisa')) ?>
                   </div>
                 </div>
-                <div><?= intval($medicineItem['stock']) - intval($medicineItem['total_quantity_taken']) ?> / <?= $medicineItem['stock'] ?></div>
+                <div><?= intval($medicineItem['stock']) - intval($medicineItem['total_quantity_taken']) ?> / <?= $medicineItem['stock'] ?><?=(intval($medicineItem['stock']) - intval($medicineItem['total_quantity_taken']) !== 0) ? '' : '<span class="text-danger"><i class="fas fa-exclamation-triangle ms-2 me-1"></i>Stok Habis!</span>' ?></div>
               </td>
               <td>
                 <div class="btn-group-sm btn-group">

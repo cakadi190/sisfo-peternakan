@@ -17,7 +17,7 @@ function deleteFileIfExists($filename)
 {
   $filePath = getFileFullPath($filename);
   if (file_exists($filePath) && !unlink($filePath)) {
-    redirectToDashboard("Gagal menghapus file evidence!");
+    redirectToDashboard("Gagal menghapus berkas bukti dokumentasi!");
   }
 }
 

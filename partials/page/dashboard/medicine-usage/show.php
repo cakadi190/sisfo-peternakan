@@ -44,11 +44,11 @@ $medicationRetrievalResult = $medicationRetrieval->get_result()->fetch_assoc();
           <tbody>
             <tr>
               <th>Data Masuk Pada</th>
-              <td><?= date_format(date_create($medicationRetrievalResult['created_at']), 'l, j F Y H:i:s') ?></td>
+              <td><?= (new DateTime($medicationRetrievalResult['created_at']))->format('l, j F Y'); ?></td>
             </tr>
             <tr>
               <th>Data Diperbaharui Pada</th>
-              <td><?= date_format(date_create($medicationRetrievalResult['updated_at']), 'l, j F Y H:i:s') ?></td>
+              <td><?= (new DateTime($medicationRetrievalResult['updated_at']))->format('l, j F Y'); ?></td>
             </tr>
             <tr>
               <th>Nama Obat</th>
@@ -64,7 +64,7 @@ $medicationRetrievalResult = $medicationRetrieval->get_result()->fetch_assoc();
             </tr>
             <tr>
               <th>Diambil Pada</th>
-              <td><?= date('l, j F Y', strtotime($medicationRetrievalResult['retrieval_date'])) ?></td>
+              <td><?= (new DateTime($medicationRetrievalResult['retrieval_date']))->format('l, j F Y'); ?></td>
             </tr>
             <tr>
               <th>Jumlah Pengambilan</th>

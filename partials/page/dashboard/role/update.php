@@ -24,7 +24,14 @@ if (Request::isMethod('post')) {
     $_SESSION['success'] = "Berhasil menambahkan data peran ke dalam database!";
     redirect('/dashboard/role');
   } catch (\Exception $e) {
-    $_SESSION['error'] = "Error: " . $e->getMessage();
+    if(str_contains($e->getMessage(), "phone")) {
+      $_SESSION['error'] = "Data nomor HP tidak boleh sama!";
+    } else if(str_contains($e->getMessage(), "email")) {
+      $_SESSION['error'] = "Data Surat Elektronik tidak boleh sama!";
+    } else {
+      $_SESSION['error'] = "Error: " . $e->getMessage();
+    }
+
     redirect()->back();
   }
 } else {

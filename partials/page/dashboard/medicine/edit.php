@@ -14,6 +14,9 @@ $medicineDataResult = $medicineData->get_result()->fetch_assoc();
 <div class="container-fluid flex-grow-1 container-p-y">
 
   <div class="row justify-content-center">
+    <div class="col-md-3">
+      <a href="<?=url('/dashboard/medicine') ?>" class="btn btn-primary"><i class="fas fa-arrow-left"></i></a>
+    </div>
     <div class="col-lg-6">
       <?php include(__DIR__ . '../../../../alert.php'); ?>
 
@@ -83,7 +86,7 @@ $medicineDataResult = $medicineData->get_result()->fetch_assoc();
           </div>
 
           <div class="form-group mb-2">
-            <label for="contradictions">Kontraindikasi dan Efek Samping</label>
+            <label for="contradictions">Kontraindikasi dan Efek Samping (opsional)</label>
             <textarea class="form-control" id="contradictions" name="contradictions" rows="3"><?=$medicineDataResult['contradictions'] ?></textarea>
           </div>
 
@@ -96,6 +99,7 @@ $medicineDataResult = $medicineData->get_result()->fetch_assoc();
         </form>
       </div>
     </div>
+    <div class="col-md-3">&nbsp;</div>
   </div>
 
 </div>

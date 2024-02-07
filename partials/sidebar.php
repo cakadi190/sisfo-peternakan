@@ -1,9 +1,6 @@
 <?php
-// Assuming $currentUserRoles is an array containing the roles of the current user
-// For demonstration purposes, let's assume $currentUserRoles = [1, 2, 3];
 
 use function inc\helper\auth;
-use function inc\helper\dd;
 use function inc\helper\url;
 
 $currentUrl = url(str_replace('/crud', '/', $_SERVER['REQUEST_URI']));
@@ -12,8 +9,8 @@ $currentUserRoles = auth()->user()['role'];
 $menuItems = [
   [
     'url' => url('/dashboard'),
-    'icon' => 'bx bx-collection',
-    'text' => 'Dasbor',
+    'icon' => 'bx bx-home',
+    'text' => 'Dashboard',
   ],
   [
     'header' => true,
@@ -50,7 +47,7 @@ $menuItems = [
         'text' => 'Semua Data Ternak',
       ],
       [
-        'url' => url('/dashboard/farm'),
+        'url' => url('/dashboard/farm/create'),
         'text' => 'Tambah Ternak baru',
       ],
     ],
@@ -63,15 +60,7 @@ $menuItems = [
     'subMenu' => [
       [
         'url' => url('/dashboard/barn-category'),
-        'text' => 'Kategori Pakan Ternak',
-      ],
-      [
-        'url' => url('/dashboard/barn'),
-        'text' => 'Semua Data',
-      ],
-      [
-        'url' => url('/dashboard/barn'),
-        'text' => 'Tambah Pakan',
+        'text' => 'Komoditas Pakan',
       ],
       [
         'url' => url('/dashboard/barn'),

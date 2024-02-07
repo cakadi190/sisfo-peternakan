@@ -36,7 +36,7 @@ $rolesDataItems = $rolesData->get_result()->fetch_all(MYSQLI_ASSOC);
         <?php if (!empty($rolesDataItems)) : foreach ($rolesDataItems as $role) : ?>
             <tr>
               <td><?=$role['name'] ?></td>
-              <td><span class="badge" style="background: <?= $role['color'] ?>;color: <?= isLightColor($role['color']) ?>;"><?= $role['color'] ?></span></td>
+              <td><span class="badge font-monospace" style="background: <?= $role['color'] ?>;color: <?= isLightColor($role['color']) ?>;"><?= $role['color'] ?></span></td>
               <td>
                 <div class="btn-group-sm btn-group">
                   <a href="<?= url("/dashboard/role/{$role['id']}/edit") ?>" class="btn btn-success"><i class="bx bx-pencil"></i></a>

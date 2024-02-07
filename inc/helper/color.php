@@ -12,7 +12,7 @@ function isLightColor($color)
 {
   [$r, $g, $b] = sscanf($color, "#%02x%02x%02x");
   $luminance = ($r * 0.299 + $g * 0.587 + $b * 0.114) / 255;
-  return $luminance < 0.75 ? "#FFF" : "#000";
+  return $luminance < 0.6 ? "#FFF" : "#000";
 }
 
 /**

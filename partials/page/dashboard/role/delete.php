@@ -41,22 +41,24 @@ if ($id !== null) {
   if ($roleListResult->num_rows > 0) {
     $userCount = checkIfRoleIsUsed($db, $id);
 
-    if ($userCount > 0) {
-      $_SESSION['error'] = "Failed to delete role! The role is still being used by {$userCount} users.";
+    if($id === 1) {
+      $_SESSION['error'] = "Gagal menghapus peran pengguna, karena anda menghapus peran yang digunakan oleh admin.";
+    } elseif ($userCount > 0) {
+      $_SESSION['error'] = "Gagal menghapus peran pengguna, karena masih digunakan oleh {$userCount} pengguna.";
     } else {
       $deleteRoleResult = deleteRole($db, $id);
 
       if ($deleteRoleResult) {
-        $_SESSION['success'] = "Role deleted successfully!";
+        $_SESSION['success'] = "Peran telah terhapus!";
       } else {
-        $_SESSION['error'] = "Failed to delete role!";
+        $_SESSION['error'] = "Gagal menghapus peran!";
       }
     }
   } else {
-    $_SESSION['error'] = "Failed to delete role! No role found with the provided ID.";
+    $_SESSION['error'] = "Gagal menghapus peran! Tidak ada peran yang sesuai dengan ID yang anda masukkan.";
   }
 } else {
-  $_SESSION['error'] = "Failed to delete role! No target role ID provided.";
+  $_SESSION['error'] = "Gagal menghapus peran! Tidak ada target ID peran.";
 }
 
 // Redirect to dashboard

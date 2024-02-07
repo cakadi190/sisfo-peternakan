@@ -27,6 +27,29 @@ if (!auth()->check()) {
   redirect('/dashboard');
 }
 
+/**
+ * Deleting previous image
+ * 
+ * @return void
+ */
+function deleteLastImage() {
+  global $db;
+
+  // Sanitize input
+  $sanitizedId = Sanitize::sanitizeInput($_GET['id']);
+
+  $getTheQuery = $db->getConnection()->prepare("SELECT * FROM `medication_retrieval` WHERE `id` = ?");
+  $getTheQuery->bind_param('s', $sanitizedId); // Pass the sanitized id variable
+  $getTheQuery->execute();
+
+  $data = $getTheQuery->get_result()->fetch_all(MYSQLI_ASSOC);
+  $path = __DIR__ . "/../../../../uploads/{$data[0]['evidence']}";
+
+  if(file_exists($path)) {
+    unlink($path);
+  }
+}
+
 // Check if the form is submitted via POST method
 if (Request::isMethod('post')) {
   handleFormSubmission($db);
@@ -105,6 +128,22 @@ function checkTheStock($usage, $medId)
 }
 
 /**
+ * Checks if the retrieval date is less than today's date
+ * If yes, redirects back with an error message
+ *
+ * @return void
+ */
+function checkIfLessThanToday()
+{
+  $retrievalDate = Request::post('retrieval_date');
+  $today = date('Y-m-d');
+
+  if ($retrievalDate < $today) {
+    handleErrorRedirect("Tanggal pengambilan obat tidak boleh kurang dari hari ini.");
+  }
+}
+
+/**
  * Handles the submission of the form, including file upload and database insertion
  *
  * @param object $db The database connection object
@@ -123,11 +162,18 @@ function handleFormSubmission($db)
     handleErrorRedirect("Nilai jumlah yang diambil harus positif lebih dari nol.");
   }
 
+  // Check if input less than today 
+  checkIfLessThanToday();
+
   // Check medicine stock availability
   checkTheStock(Request::post('quantity_taken'), Request::post('med_id'));
 
   // If has file is selected for upload
   if ($fileInfo['full_path'] !== "") {
+    // Delete last image
+    deleteLastImage();
+
+    // Upload new one
     $fullFilename = uploadTheFile($fileInfo);
     $store['evidence'] = $fullFilename;
   }
