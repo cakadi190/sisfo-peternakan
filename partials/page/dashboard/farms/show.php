@@ -64,11 +64,27 @@ $status = [
             <!-- Lengkapi disini -->
             <tr>
               <th style="width: 30%">ID</th>
-              <td>#<?= $farmData['id'] ?></td>
+              <td class="font-monospace">#<?= $farmData['id'] ?></td>
             </tr>
             <tr>
               <th style="width: 30%">Nama</th>
               <td><?= $farmData['name'] ?></td>
+            </tr>
+            <tr>
+              <th style="width: 30%">Kelamin</th>
+              <td>
+                <?php if($farmData['gender'] == 'jantan'): ?>
+                  <div class="d-flex gap-2 align-items-center">
+                    <i class="fas fa-mars-stroke"></i>
+                    <span>Jantan</span>
+                  </div>
+                <?php else: ?>
+                  <div class="d-flex gap-2 align-items-center">
+                    <i class="fas fa-venus"></i>
+                    <span>Betina</span>
+                  </div>
+                <?php endif; ?>
+              </td>
             </tr>
             <tr>
               <th style="width: 30%">Ditempatkan Di Kandang</th>

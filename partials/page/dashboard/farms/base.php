@@ -19,6 +19,7 @@ if ($auth->user()['role'] === 1) {
     `farm_category`.`category_name`,
     `farm_category`.`color`,
     `farm_category`.`race`,
+    `farm_category`.`weight_class`,
     `farms`.*
   FROM `farms`
   JOIN `users` ON `users`.`id`=`farms`.`pic`
@@ -62,7 +63,7 @@ $status = [
 
 <div class="container-fluid flex-grow-1 container-p-y">
   <div class="d-flex mb-3 align-items-center justify-content-between">
-    <h1 class="mb-0">Data Obat</h1>
+    <h1 class="mb-0">Data Hewan Ternak</h1>
     <a href="<?= url('/dashboard/farm/create') ?>" class="btn btn-primary">Tambah Data Baru</a>
   </div>
 
@@ -73,6 +74,7 @@ $status = [
       <thead>
         <tr>
           <th style="width: auto">Nama</th>
+          <th style="width: auto">Kelamin</th>
           <th style="width: auto">Kategori</th>
           <th style="width: auto">Kandang</th>
           <th style="width: auto">Tanggal Masuk</th>
@@ -86,11 +88,24 @@ $status = [
       <tbody>
         <?php if (!empty($farms)) : foreach ($farms as $farm) : ?>
             <tr>
+              <td><?= $farm['name'] ?></td>
               <td>
-                <?= $farm['name'] ?>
+                <?php if($farm['gender'] == 'jantan'): ?>
+                  <div class="d-flex gap-2 align-items-center">
+                    <i class="fas fa-mars-stroke"></i>
+                    <span>Jantan</span>
+                  </div>
+                <?php else: ?>
+                  <div class="d-flex gap-2 align-items-center">
+                    <i class="fas fa-venus"></i>
+                    <span>Betina</span>
+                  </div>
+                <?php endif; ?>
               </td>
               <td>
-                <span class="badge" style="background: <?= $farm['color'] ?>;color: <?= isLightColor($farm['color']) ?>;"><?= $farm['category_name'] ?> / <?= $farm['race'] ?></span>
+                <span class="badge" style="background: <?= $farm['color'] ?>;color: <?= isLightColor($farm['color']) ?>;">
+                  <?= $farm['category_name'] ?> / <?= $farm['race'] ?> / <?=ucwords($farm['weight_class']) ?>
+                </span>
               </td>
               <td><?= $farm['farm_shed'] ?></td>
               <td><?= (new DateTime($farm['entrance_date']))->format('l, j F Y H.i.s') ?></td>
@@ -113,7 +128,7 @@ $status = [
           <?php endforeach;
         else : ?>
           <tr>
-            <td colspan="7">Tidak Ada Data Sama Sekali</td>
+            <td colspan="8">Tidak Ada Data Sama Sekali</td>
           </tr>
         <?php endif; ?>
       </tbody>

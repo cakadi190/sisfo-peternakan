@@ -57,7 +57,7 @@ $users = $usersList->get_result()->fetch_all(MYSQLI_ASSOC);
             <select name="category" id="category" class="form-select">
               <option disabled="disabled" selected="selected">Pilih Salah Satu</option>
               <?php foreach ($farmCat as $c) : ?>
-                <option value="<?= $c['id'] ?>"><?= $c['category_name'] ?> / <?= $c['race'] ?></option>
+                <option value="<?= $c['id'] ?>"><?= $c['category_name'] ?> / <?= $c['race'] ?> / <?=ucwords($c['weight_class']) ?></option>
               <?php endforeach; ?>
             </select>
 

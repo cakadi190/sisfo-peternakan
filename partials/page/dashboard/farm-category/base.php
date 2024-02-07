@@ -23,7 +23,7 @@ $farmCategory = $dbInit->get_result()->fetch_all(MYSQLI_ASSOC);
 
 <div class="container-fluid flex-grow-1 container-p-y">
   <div class="d-flex mb-3 align-items-center justify-content-between">
-    <h1 class="mb-0">Data Obat</h1>
+    <h1 class="mb-0">Data Kategori Hewan Ternak</h1>
     <a href="<?= url('/dashboard/farm-category/create') ?>" class="btn btn-primary">Tambah Data Baru</a>
   </div>
 
@@ -48,12 +48,12 @@ $farmCategory = $dbInit->get_result()->fetch_all(MYSQLI_ASSOC);
               <td><span class="badge font-monospace" style="background: <?= $farm['color'] ?>;color: <?= isLightColor($farm['color']) ?>;"><?= $farm['color'] ?></span></td>
               <td><?= $farm['race'] ?></td>
               <td>
-                <strong><?= $farm['alive'] ?> ekor</strong>
-                <?php if($farm['alive'] > 0): ?>
+                <strong><?= intval($farm['alive']) + intval($farm['sold_or_dead']) ?> ekor</strong>
+                <?php if((intval($farm['alive']) + intval($farm['sold_or_dead'])) > 0): ?>
                 <div class="mt-2">
                   <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: <?=($farm['alive'] / $farm['total_data']) * 100 ?>%" aria-valuenow="<?=($farm['alive'] / $farm['total_data']) * 100 ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: <?=($farm['sold_or_dead'] / $farm['total_data']) * 100 ?>%" aria-valuenow="<?=($farm['sold_or_dead'] / $farm['total_data']) * 100 ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                    <?php if(intval($farm['alive']) > 0): ?><div class="progress-bar bg-success" role="progressbar" style="width: <?=($farm['alive'] / $farm['total_data']) * 100 ?>%" aria-valuenow="<?=($farm['alive'] / $farm['total_data']) * 100 ?>" aria-valuemin="0" aria-valuemax="100"></div><?php endif; ?>
+                    <?php if(intval($farm['sold_or_dead']) > 0): ?><div class="progress-bar bg-warning" role="progressbar" style="width: <?=($farm['sold_or_dead'] / $farm['total_data']) * 100 ?>%" aria-valuenow="<?=($farm['sold_or_dead'] / $farm['total_data']) * 100 ?>" aria-valuemin="0" aria-valuemax="100"></div><?php endif; ?>
                   </div>
 
                   <div class="d-flex justify-content-between">

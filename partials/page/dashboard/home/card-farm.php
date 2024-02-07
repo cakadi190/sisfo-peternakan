@@ -8,7 +8,8 @@ $dbInit = $db->getConnection()->prepare("SELECT farm_category.*,
                                         SUM(CASE WHEN farms.status != 'hidup' THEN 1 ELSE 0 END) AS sold_or_dead
                                         FROM farm_category 
                                         LEFT JOIN farms ON farm_category.id = farms.category 
-                                        GROUP BY farm_category.id");
+                                        GROUP BY farm_category.id
+                                        LIMIT 10");
 $dbInit->execute();
 $farmCategory = $dbInit->get_result()->fetch_all(MYSQLI_ASSOC);
 ?>
@@ -31,21 +32,21 @@ $farmCategory = $dbInit->get_result()->fetch_all(MYSQLI_ASSOC);
         <?php if (!empty($farmCategory)) : foreach ($farmCategory as $farm) : ?>
             <tr>
               <td><?= $farm['category_name'] ?></td>
-              <td><?=$farm['race'] ?></td>
+              <td><?= $farm['race'] ?></td>
               <td>
-                <strong><?= $farm['alive'] ?> ekor</strong>
-                <?php if($farm['alive'] > 0): ?>
-                <div class="mt-2">
-                  <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: <?=($farm['alive'] / $farm['total_data']) * 100 ?>%" aria-valuenow="<?=($farm['alive'] / $farm['total_data']) * 100 ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: <?=($farm['sold_or_dead'] / $farm['total_data']) * 100 ?>%" aria-valuenow="<?=($farm['sold_or_dead'] / $farm['total_data']) * 100 ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
+                <strong><?= intval($farm['alive']) + intval($farm['sold_or_dead']) ?> ekor</strong>
+                <?php if ((intval($farm['alive']) + intval($farm['sold_or_dead'])) > 0) : ?>
+                  <div class="mt-2">
+                    <div class="progress">
+                      <?php if (intval($farm['alive']) > 0) : ?><div class="progress-bar bg-success" role="progressbar" style="width: <?= ($farm['alive'] / $farm['total_data']) * 100 ?>%" aria-valuenow="<?= ($farm['alive'] / $farm['total_data']) * 100 ?>" aria-valuemin="0" aria-valuemax="100"></div><?php endif; ?>
+                      <?php if (intval($farm['sold_or_dead']) > 0) : ?><div class="progress-bar bg-warning" role="progressbar" style="width: <?= ($farm['sold_or_dead'] / $farm['total_data']) * 100 ?>%" aria-valuenow="<?= ($farm['sold_or_dead'] / $farm['total_data']) * 100 ?>" aria-valuemin="0" aria-valuemax="100"></div><?php endif; ?>
+                    </div>
 
-                  <div class="d-flex justify-content-between">
-                    <div><?=$farm['alive'] ?> hidup</div>
-                    <div><?=$farm['sold_or_dead'] ?> terjual / mati</div>
+                    <div class="d-flex justify-content-between">
+                      <div><?= $farm['alive'] ?> hidup</div>
+                      <div><?= $farm['sold_or_dead'] ?> terjual / mati</div>
+                    </div>
                   </div>
-                </div>
                 <?php endif; ?>
               </td>
             </tr>
