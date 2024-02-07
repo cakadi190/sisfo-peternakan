@@ -50,13 +50,26 @@ $users = $usersList->get_result()->fetch_all(MYSQLI_ASSOC);
           </div>
 
           <div class="form-group mb-2">
+            <label for="gender">Kelamin</label>
+            <select name="gender" id="gender" class="form-select">
+              <option disabled="disabled" selected="selected">Pilih Salah Satu</option>
+              <option <?= $farmsResult['gender'] !== 'jantan' ?: 'selected' ?> value="jantan">Jantan</option>
+              <option <?= $farmsResult['gender'] !== 'betina' ?: 'selected' ?> value="betina">Betina</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-2">
             <label for="category">Kategori</label>
             <select name="category" id="category" class="form-select">
               <option disabled="disabled" selected="selected">Pilih Salah Satu</option>
               <?php foreach ($farmCat as $c) : ?>
-                <option <?=$farmsResult['category'] !== $c['id'] ?: 'selected' ?> value="<?= $c['id'] ?>"><?= $c['category_name'] ?> / <?= $c['race'] ?></option>
+                <option <?= $farmsResult['category'] !== $c['id'] ?: 'selected' ?> value="<?= $c['id'] ?>"><?= $c['category_name'] ?> / <?= $c['race'] ?></option>
               <?php endforeach; ?>
             </select>
+
+            <?php if (empty($farmCat)) : ?>
+              <div class="form-text">Masih belum ada kategori. Tambahkan kategori <a href="<?= url("/dashboard/farm-category/create") ?>">disini</a>.</div>
+            <?php endif ?>
           </div>
 
           <?php if (auth()->user()['role'] === 1) : ?>
@@ -65,7 +78,7 @@ $users = $usersList->get_result()->fetch_all(MYSQLI_ASSOC);
               <select class="form-select" id="pic" name="pic" required>
                 <option disabled selected>[Pilih Salah Satu]</option>
                 <?php foreach ($users as $user) : ?>
-                  <option <?=$farmsResult['pic'] !== $user['id'] ?: 'selected' ?> value="<?= $user['id'] ?>"><?= $user['full_name'] ?></option>
+                  <option <?= $farmsResult['pic'] !== $user['id'] ?: 'selected' ?> value="<?= $user['id'] ?>"><?= $user['full_name'] ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -77,9 +90,9 @@ $users = $usersList->get_result()->fetch_all(MYSQLI_ASSOC);
             <label for="status">Status Hewan Ternak</label>
             <select name="status" id="status" class="form-select">
               <option selected disabled>[Pilih Salah Satu]</option>
-              <option <?=$farmsResult['status'] !== 'hidup' ?: 'selected' ?> value="hidup">Hidup</option>
-              <option <?=$farmsResult['status'] !== 'mati' ?: 'selected' ?> value="mati">Mati</option>
-              <option <?=$farmsResult['status'] !== 'terjual' ?: 'selected' ?> value="terjual">Terjual</option>
+              <option <?= $farmsResult['status'] !== 'hidup' ?: 'selected' ?> value="hidup">Hidup</option>
+              <option <?= $farmsResult['status'] !== 'mati' ?: 'selected' ?> value="mati">Mati</option>
+              <option <?= $farmsResult['status'] !== 'terjual' ?: 'selected' ?> value="terjual">Terjual</option>
             </select>
           </div>
 

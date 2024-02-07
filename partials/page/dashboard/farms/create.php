@@ -44,6 +44,15 @@ $users = $usersList->get_result()->fetch_all(MYSQLI_ASSOC);
           </div>
 
           <div class="form-group mb-2">
+            <label for="gender">Kelamin</label>
+            <select name="gender" id="gender" class="form-select">
+              <option disabled="disabled" selected="selected">Pilih Salah Satu</option>
+              <option value="jantan">Jantan</option>
+              <option value="betina">Betina</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-2">
             <label for="category">Kategori</label>
             <select name="category" id="category" class="form-select">
               <option disabled="disabled" selected="selected">Pilih Salah Satu</option>
@@ -51,6 +60,10 @@ $users = $usersList->get_result()->fetch_all(MYSQLI_ASSOC);
                 <option value="<?= $c['id'] ?>"><?= $c['category_name'] ?> / <?= $c['race'] ?></option>
               <?php endforeach; ?>
             </select>
+
+            <?php if (empty($farmCat)) : ?>
+              <div class="form-text">Masih belum ada kategori. Tambahkan kategori <a href="<?= url("/dashboard/farm-category/create") ?>">disini</a>.</div>
+            <?php endif ?>
           </div>
 
           <?php if (auth()->user()['role'] === 1) : ?>

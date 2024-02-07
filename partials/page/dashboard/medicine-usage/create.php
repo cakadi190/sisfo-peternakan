@@ -20,7 +20,7 @@ $medicines = $medList->get_result()->fetch_all(MYSQLI_ASSOC);
 
   <div class="row justify-content-center">
     <div class="col-md-3">
-      <a href="<?=url('/dashboard/medicine-usage') ?>" class="btn btn-primary"><i class="fas fa-arrow-left"></i></a>
+      <a href="<?= url('/dashboard/medicine-usage') ?>" class="btn btn-primary"><i class="fas fa-arrow-left"></i></a>
     </div>
     <div class="col-lg-6">
       <?php include(__DIR__ . '../../../../alert.php'); ?>
@@ -31,21 +31,21 @@ $medicines = $medList->get_result()->fetch_all(MYSQLI_ASSOC);
         <form enctype="multipart/form-data" action="<?= url('/dashboard/medicine-usage/store') ?>" method="POST">
           <div class="form-group mb-3">
             <label for="retrieval_date">Tanggal Pengambilan</label>
-            <input type="date" class="form-control" value="<?=date('Y-m-d') ?>" id="retrieval_date" name="retrieval_date" required>
+            <input type="date" class="form-control" value="<?= date('Y-m-d') ?>" id="retrieval_date" name="retrieval_date" required>
           </div>
 
-          <?php if(auth()->user()['role'] === 1): ?>
-          <div class="form-group mb-3">
-            <label for="taken_by">Diambil Oleh</label>
-            <select class="form-select" id="taken_by" name="taken_by" required>
-              <option disabled selected>[Pilih Salah Satu]</option>
-              <?php foreach ($users as $user) : ?>
-                <option value="<?= $user['id'] ?>"><?= $user['full_name'] ?></option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <?php else: ?>
-          <input type="hidden" name="taken_by" value="<?= auth()->user()['id'] ?>" />
+          <?php if (auth()->user()['role'] === 1) : ?>
+            <div class="form-group mb-3">
+              <label for="taken_by">Diambil Oleh</label>
+              <select class="form-select" id="taken_by" name="taken_by" required>
+                <option disabled selected>[Pilih Salah Satu]</option>
+                <?php foreach ($users as $user) : ?>
+                  <option value="<?= $user['id'] ?>"><?= $user['full_name'] ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          <?php else : ?>
+            <input type="hidden" name="taken_by" value="<?= auth()->user()['id'] ?>" />
           <?php endif; ?>
 
           <div class="form-group mb-3">
@@ -56,6 +56,10 @@ $medicines = $medList->get_result()->fetch_all(MYSQLI_ASSOC);
                 <option value="<?= $med['id'] ?>"><?= $med['medication_name'] ?></option>
               <?php endforeach; ?>
             </select>
+
+            <?php if (empty($medicines)) : ?>
+              <div class="form-text">Masih belum ada data obatnya. Tambahkan data obat <a href="<?= url("/dashboard/medicine/create") ?>">disini</a>.</div>
+            <?php endif ?>
           </div>
 
           <div class="form-group mb-3">

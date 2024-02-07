@@ -40,6 +40,7 @@ if (Request::isMethod('post')) {
     'status',
     'farm_shed',
     'pic',
+    'gender'
   );
 
   $farmCategory = array_merge($input, [

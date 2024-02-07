@@ -25,7 +25,7 @@ $medicineRetrievalResult = $medicineRetrieval->get_result()->fetch_assoc();
 
   <div class="row justify-content-center">
     <div class="col-md-3">
-      <a href="<?=url('/dashboard/medicine-usage') ?>" class="btn btn-primary"><i class="fas fa-arrow-left"></i></a>
+      <a href="<?= url('/dashboard/medicine-usage') ?>" class="btn btn-primary"><i class="fas fa-arrow-left"></i></a>
     </div>
     <div class="col-lg-6">
       <?php include(__DIR__ . '../../../../alert.php'); ?>
@@ -57,6 +57,10 @@ $medicineRetrievalResult = $medicineRetrieval->get_result()->fetch_assoc();
                 <option <?= $medicineRetrievalResult['med_id'] !== $med['id'] ?: 'selected' ?> value="<?= $med['id'] ?>"><?= $med['medication_name'] ?></option>
               <?php endforeach; ?>
             </select>
+
+            <?php if (empty($medicines)) : ?>
+              <div class="form-text">Masih belum ada data obatnya. Tambahkan data obat <a href="<?= url("/dashboard/medicine/create") ?>">disini</a>.</div>
+            <?php endif ?>
           </div>
 
           <div class="form-group mb-3">
@@ -68,7 +72,7 @@ $medicineRetrievalResult = $medicineRetrieval->get_result()->fetch_assoc();
             <div>
               <img src="<?= url("/uploads/{$medicineRetrievalResult['evidence']}") ?>" alt="Bukti" class="rounded mb-3" height="160px" width="auto" />
             </div>
-          
+
             <div class="form-group">
               <label for="evidence">Bukti Dokumentasi (opsional)</label>
               <input type="file" class="form-control" id="evidence" name="evidence" />
