@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /crud
+RewriteBase /
 
 RewriteRule ^auth/logout$ logout.php [L]
 RewriteRule ^auth$ auth.php [L]
@@ -50,6 +50,24 @@ RewriteRule ^dashboard/farm-category/(\w+)/show$ farm-category.php?action=show&i
 RewriteRule ^dashboard/farm-category/(\w+)/edit$ farm-category.php?action=edit&id=$1 [L]
 RewriteRule ^dashboard/farm-category/(\w+)/update$ farm-category.php?action=update&id=$1 [L]
 RewriteRule ^dashboard/farm-category/(\w+)/delete$ farm-category.php?action=delete&id=$1 [L]
+
+RewriteRule ^dashboard/barn-category$ barn-category.php [L]
+RewriteRule ^dashboard/barn-category/create$ barn-category.php?action=create [L]
+RewriteRule ^dashboard/barn-category/store$ barn-category.php?action=store [L]
+RewriteRule ^dashboard/barn-category/update$ barn-category.php?action=update [L]
+RewriteRule ^dashboard/barn-category/(\w+)/show$ barn-category.php?action=show&id=$1 [L]
+RewriteRule ^dashboard/barn-category/(\w+)/edit$ barn-category.php?action=edit&id=$1 [L]
+RewriteRule ^dashboard/barn-category/(\w+)/update$ barn-category.php?action=update&id=$1 [L]
+RewriteRule ^dashboard/barn-category/(\w+)/delete$ barn-category.php?action=delete&id=$1 [L]
+
+RewriteRule ^dashboard/barn$ barn.php [L]
+RewriteRule ^dashboard/barn/create$ barn.php?action=create [L]
+RewriteRule ^dashboard/barn/store$ barn.php?action=store [L]
+RewriteRule ^dashboard/barn/update$ barn.php?action=update [L]
+RewriteRule ^dashboard/barn/(\w+)/show$ barn.php?action=show&id=$1 [L]
+RewriteRule ^dashboard/barn/(\w+)/edit$ barn.php?action=edit&id=$1 [L]
+RewriteRule ^dashboard/barn/(\w+)/update$ barn.php?action=update&id=$1 [L]
+RewriteRule ^dashboard/barn/(\w+)/delete$ barn.php?action=delete&id=$1 [L]
 
 RewriteRule ^dashboard/farm$ farms.php [L]
 RewriteRule ^dashboard/farm/create$ farms.php?action=create [L]
