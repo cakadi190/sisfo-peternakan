@@ -15,7 +15,6 @@
 
 use inc\classes\Request;
 use function inc\helper\auth;
-use function inc\helper\dd;
 use function inc\helper\redirect;
 
 // Load necessary files and configurations

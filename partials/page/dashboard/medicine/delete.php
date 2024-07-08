@@ -1,6 +1,5 @@
 <?php
 
-use function inc\helper\dd;
 use function inc\helper\redirect;
 
 $medicineData = $db->getConnection()->prepare("SELECT * FROM animal_medicines WHERE `id` = ?");

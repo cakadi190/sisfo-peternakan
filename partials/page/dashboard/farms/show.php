@@ -1,6 +1,5 @@
 <?php
 
-use function inc\helper\asset;
 use function inc\helper\auth;
 use function inc\helper\indonesiaDate;
 use function inc\helper\isLightColor;

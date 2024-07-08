@@ -16,7 +16,6 @@ use inc\classes\Request;
 use inc\classes\Sanitize;
 
 use function inc\helper\auth;
-use function inc\helper\dd;
 use function inc\helper\redirect;
 
 // Load necessary files and configurations
@@ -31,30 +30,77 @@ if (!auth()->check()) {
 if (Request::isMethod('post')) {
   handleFormSubmission($db);
 } else {
-  // If not submitted via POST, redirect back
   redirect()->back();
+}
+
+/**
+ * Handles the submission of the form, including file upload and database insertion
+ *
+ * @param object $db The database connection object
+ *
+ * @return void
+ */
+function handleFormSubmission($db)
+{
+  $input = Request::only('retrieval_date', 'categories', 'med_id', 'quantity_taken', 'taken_by');
+  $input['id'] = uniqid();
+  $input['taken_by'] = intval($input['taken_by']);
+  $input['quantity_taken'] = intval($input['quantity_taken']);
+
+  // Validate input
+  if ($input['quantity_taken'] <= 0) {
+    handleErrorRedirect("Nilai jumlah yang diambil harus positif lebih dari nol.");
+  }
+
+  // Check if input less than today 
+  checkIfLessThanToday($input['retrieval_date']);
+
+  // Check medicine stock availability
+  checkTheStock($input['quantity_taken'], $input['med_id']);
+
+  // Handle file upload if present
+  $fileInfo = Request::file('evidence');
+  if ($fileInfo['full_path'] !== "") {
+    // Delete last image
+    deleteLastImage($_GET['id']);
+
+    // Upload new file
+    $input['evidence'] = uploadTheFile($fileInfo);
+  }
+
+  // Update data into the 'barn_retrievals' table
+  $db->update('barn_retrievals', $input, "`id` = ?", [Sanitize::sanitizeInput($_GET['id'])]);
+
+  // Redirect to success page
+  handleSuccessRedirect("Berhasil mengubah data pengambilan pakan.");
 }
 
 /**
  * Deleting previous image
  * 
+ * @param string $id The ID of the record
+ * 
  * @return void
  */
-function deleteLastImage() {
+function deleteLastImage($id)
+{
   global $db;
 
   // Sanitize input
-  $sanitizedId = Sanitize::sanitizeInput($_GET['id']);
+  $sanitizedId = Sanitize::sanitizeInput($id);
 
   $getTheQuery = $db->getConnection()->prepare("SELECT * FROM `barn_retrievals` WHERE `id` = ?");
-  $getTheQuery->bind_param('s', $sanitizedId); // Pass the sanitized id variable
+  $getTheQuery->bind_param('s', $sanitizedId);
   $getTheQuery->execute();
 
   $data = $getTheQuery->get_result()->fetch_all(MYSQLI_ASSOC);
-  $path = __DIR__ . "/../../../../uploads/{$data[0]['evidence']}";
+  $getTheQuery->close();
 
-  if(file_exists($path)) {
-    unlink($path);
+  if (!empty($data) && isset($data[0]['evidence'])) {
+    $path = __DIR__ . "/../../../../uploads/{$data[0]['evidence']}";
+    if (file_exists($path)) {
+      unlink($path);
+    }
   }
 }
 
@@ -65,7 +111,8 @@ function deleteLastImage() {
  *
  * @return string The generated filename after successful upload
  */
-function uploadTheFile($file) {
+function uploadTheFile($file)
+{
   $allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
   if (!in_array($file['type'], $allowedImageTypes)) {
@@ -76,7 +123,7 @@ function uploadTheFile($file) {
   $extension = pathinfo($file['name'], PATHINFO_EXTENSION) ?: 'txt';
   $fullFilename = "{$fileName}.{$extension}";
 
-  $uploadPath = Request::moveUploadedFile('evidence', __DIR__ . '../../../../../uploads', "/{$fullFilename}");
+  $uploadPath = Request::moveUploadedFile('evidence', __DIR__ . '/../../../../../uploads', $fullFilename);
 
   if (!$uploadPath) {
     handleErrorRedirect("Gagal mengunggah berkas.");
@@ -102,6 +149,7 @@ function checkTheStock($usage, $medId)
   $getStock->bind_param("s", $medId);
   $getStock->execute();
   $dataStock = $getStock->get_result()->fetch_assoc();
+  $getStock->close();
 
   if (!$dataStock) {
     handleErrorRedirect("Data pakan ternak tidak valid.");
@@ -112,6 +160,7 @@ function checkTheStock($usage, $medId)
   $getTotalQuantity->bind_param("s", $medId);
   $getTotalQuantity->execute();
   $dataTotalQuantity = $getTotalQuantity->get_result()->fetch_assoc();
+  $getTotalQuantity->close();
 
   if (!$dataTotalQuantity) {
     handleErrorRedirect("Gagal mengkalkulasi Jumlah Pakan Ternak");
@@ -120,10 +169,10 @@ function checkTheStock($usage, $medId)
   // Calculate the new stock value
   $currentStock = $dataStock['stock'];
   $totalQuantityTaken = $dataTotalQuantity['total_quantity'];
-  $newStock = $currentStock - $totalQuantityTaken;
+  $newStock = $currentStock - $totalQuantityTaken - $usage;
 
   if ($newStock < 0) {
-    return handleErrorRedirect("Maaf, stok pakan tidak cukup. Mohon beritahu bagian gudang untuk mengisi ulang stok pakan ke dalam gudang pakan.");
+    handleErrorRedirect("Maaf, stok pakan tidak cukup. Mohon beritahu bagian gudang untuk mengisi ulang stok pakan ke dalam gudang pakan.");
   }
 }
 
@@ -131,58 +180,17 @@ function checkTheStock($usage, $medId)
  * Checks if the retrieval date is less than today's date
  * If yes, redirects back with an error message
  *
+ * @param string $retrievalDate The retrieval date
+ *
  * @return void
  */
-function checkIfLessThanToday()
+function checkIfLessThanToday($retrievalDate)
 {
-  $retrievalDate = Request::post('retrieval_date');
   $today = date('Y-m-d');
 
   if ($retrievalDate < $today) {
     handleErrorRedirect("Tanggal pengambilan pakan tidak boleh kurang dari hari ini.");
   }
-}
-
-/**
- * Handles the submission of the form, including file upload and database insertion
- *
- * @param object $db The database connection object
- *
- * @return void
- */
-function handleFormSubmission($db)
-{
-  $input = Request::only('retrieval_date', 'categories');
-  $store = array_merge($input, ['id' => uniqid(), 'taken_by' => intval(Request::post('taken_by')), 'quantity_taken' => intval(Request::post('quantity_taken'))]);
-  $fileInfo = Request::file('evidence');
-  $id = Sanitize::validateInput($_GET['id']);
-  
-  // Check if there has negative input to prevent bug
-  if($store['quantity_taken'] <= 0) {
-    handleErrorRedirect("Nilai jumlah yang diambil harus positif lebih dari nol.");
-  }
-
-  // Check if input less than today 
-  checkIfLessThanToday();
-
-  // Check medicine stock availability
-  checkTheStock(Request::post('quantity_taken'), Request::post('med_id'));
-
-  // If has file is selected for upload
-  if ($fileInfo['full_path'] !== "") {
-    // Delete last image
-    deleteLastImage();
-
-    // Upload new file
-    $fullFilename = uploadTheFile($fileInfo);
-    $store['evidence'] = $fullFilename;
-  }
-
-  // Insert data into the 'barn_retrievals' table
-  $db->update('barn_retrievals', $store, "`id` = '{$id}'");
-
-  // Redirect to success page
-  handleSuccessRedirect("Berhasil mengubah data pengambilan pakan.");
 }
 
 /**
@@ -192,7 +200,8 @@ function handleFormSubmission($db)
  *
  * @return void
  */
-function handleSuccessRedirect($message) {
+function handleSuccessRedirect($message)
+{
   $_SESSION['success'] = $message;
   redirect('/dashboard/barn');
   exit();

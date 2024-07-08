@@ -1,6 +1,5 @@
 <?php
 
-use function inc\helper\dd;
 use function inc\helper\redirect;
 
 $dbinit = $db->getConnection()->prepare("SELECT * FROM farms WHERE `id` = ?");

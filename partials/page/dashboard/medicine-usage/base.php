@@ -1,7 +1,6 @@
 <?php
 
 use function inc\helper\auth;
-use function inc\helper\dd;
 use function inc\helper\indonesiaDate;
 use function inc\helper\url;
 

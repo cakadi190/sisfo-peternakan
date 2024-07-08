@@ -1,9 +1,8 @@
 <?php
 
-use function inc\helper\dd;
 use function inc\helper\url;
 
-include_once(__DIR__ . '/../../../../templates/panel/header.php');
+include_once __DIR__ . '/../../../../templates/panel/header.php';
 
 // Get All Stored Users
 $usersList = $db->getConnection()->prepare("SELECT * FROM users");

@@ -1,7 +1,5 @@
 <?php
 
-use inc\classes\Sanitize;
-
 use function inc\helper\redirect;
 
 session_start();
