@@ -85,7 +85,7 @@ function checkTheStock($usage, $medId)
   }
 
   // Get the total quantity taken for the given medicine id
-  $getTotalQuantity = $db->getConnection()->prepare("SELECT SUM(`quantity_taken`) as total_quantity FROM `barn_retrieval` WHERE `categories` = ?");
+  $getTotalQuantity = $db->getConnection()->prepare("SELECT SUM(`quantity_taken`) as total_quantity FROM `barn_retrievals` WHERE `categories` = ?");
   $getTotalQuantity->bind_param("s", $medId);
   $getTotalQuantity->execute();
   $dataTotalQuantity = $getTotalQuantity->get_result()->fetch_assoc();
@@ -152,8 +152,8 @@ function handleFormSubmission($db)
   $fullFilename = uploadTheFile($fileInfo);
   $store['evidence'] = $fullFilename;
 
-  // Insert data into the 'barn_retrieval' table
-  $db->insert('barn_retrieval', $store);
+  // Insert data into the 'barn_retrievals' table
+  $db->insert('barn_retrievals', $store);
 
   // Redirect to success page
   handleSuccessRedirect("Berhasil menambahkan data pengambilan pakan.");

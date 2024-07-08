@@ -11,7 +11,7 @@ $user = $auth->user();
 // Get All Stored Users
 $medicineData = $db->getConnection()->prepare("
   SELECT am.*, COALESCE(SUM(mr.quantity_taken), 0) AS total_quantity_taken
-  FROM animal_medicine am
+  FROM animal_medicines am
   LEFT JOIN medication_retrieval mr ON am.id = mr.med_id
   WHERE am.id = ?
   GROUP BY am.id

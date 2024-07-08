@@ -3,13 +3,13 @@
 use function inc\helper\dd;
 use function inc\helper\redirect;
 
-$medicineData = $db->getConnection()->prepare("SELECT * FROM animal_medicine WHERE `id` = ?");
+$medicineData = $db->getConnection()->prepare("SELECT * FROM animal_medicines WHERE `id` = ?");
 $medicineData->bind_param('s', $_GET['id']);
 $medicineData->execute();
 $medicineDataResult = $medicineData->get_result();
 
 if ($medicineDataResult->num_rows > 0) {
-  $deleteData = $db->getConnection()->prepare("DELETE FROM animal_medicine WHERE `id` = ?");
+  $deleteData = $db->getConnection()->prepare("DELETE FROM animal_medicines WHERE `id` = ?");
   $deleteData->bind_param('s', $_GET['id']);
   $deleteDataResult = $deleteData->execute();
 

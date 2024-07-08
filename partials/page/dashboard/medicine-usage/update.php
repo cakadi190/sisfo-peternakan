@@ -98,7 +98,7 @@ function checkTheStock($usage, $medId)
   global $db;
 
   // Get the current stock for the given medicine id
-  $getStock = $db->getConnection()->prepare("SELECT `stock` FROM `animal_medicine` WHERE `id` = ?");
+  $getStock = $db->getConnection()->prepare("SELECT `stock` FROM `animal_medicines` WHERE `id` = ?");
   $getStock->bind_param("s", $medId);
   $getStock->execute();
   $dataStock = $getStock->get_result()->fetch_assoc();

@@ -17,7 +17,7 @@ if ($user['role'] === 1) {
       us.id as user_id,
       bc.id as barn_id,
       bc.barn_name
-    FROM barn_retrieval br
+    FROM barn_retrievals br
     JOIN barn_categories bc ON br.categories = bc.id
     JOIN users us ON br.taken_by = us.id
     ORDER BY br.created_at DESC
@@ -29,7 +29,7 @@ if ($user['role'] === 1) {
       us.id as user_id,
       bc.id as barn_id,
       bc.barn_name
-    FROM barn_retrieval br
+    FROM barn_retrievals br
     JOIN barn_categories bc ON br.categories = bc.id
     JOIN users us ON br.taken_by = us.id
     WHERE br.taken_by = ?

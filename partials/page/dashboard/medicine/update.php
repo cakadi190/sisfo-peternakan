@@ -60,7 +60,7 @@ if (Request::isMethod('post')) {
   checkIfStockLessThanTotalRetrieval($id, intval(Request::post('stock')));
 
   try {
-    $db->update('animal_medicine', $medicationData, "`id` = '{$id}'");
+    $db->update('animal_medicines', $medicationData, "`id` = '{$id}'");
     $_SESSION['success'] = "Berhasil memperbaharui data ke dalam database!";
     redirect('/dashboard/medicine');
   } catch (\Exception $e) {

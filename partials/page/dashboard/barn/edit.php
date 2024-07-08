@@ -15,7 +15,7 @@ $medList = $db->getConnection()->prepare("SELECT * FROM barn_categories");
 $medList->execute();
 $category = $medList->get_result()->fetch_all(MYSQLI_ASSOC);
 
-$barnsData = $db->getConnection()->prepare("SELECT * FROM barn_retrieval WHERE id = ?");
+$barnsData = $db->getConnection()->prepare("SELECT * FROM barn_retrievals WHERE id = ?");
 $barnsData->bind_param('s', $_GET['id']);
 $barnsData->execute();
 $barnsDataResult = $barnsData->get_result()->fetch_assoc();

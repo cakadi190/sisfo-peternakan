@@ -10,7 +10,7 @@ $user = $auth->user();
 // Get All Stored Users
 $dbInit = $db->getConnection()->prepare("SELECT `barn`.*, COALESCE(SUM(br.quantity_taken), 0) AS total_quantity_taken 
 FROM `barn_categories` `barn`
-LEFT JOIN `barn_retrieval` `br` ON `barn`.`id` = `br`.`categories`
+LEFT JOIN `barn_retrievals` `br` ON `barn`.`id` = `br`.`categories`
 GROUP BY barn.id");
 $dbInit->execute();
 $barnCategories = $dbInit->get_result()->fetch_all(MYSQLI_ASSOC);

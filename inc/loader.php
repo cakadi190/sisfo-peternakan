@@ -41,7 +41,7 @@ setlocale(LC_TIME, 'IND');
 # Change with the required credentials an .env file!
 $hostname = "localhost";
 $username = "root";
-$password = "cakadi1902";
+$password = "190203";
 $database = "bbib_crud";
 
 $db           = new Database($hostname, $username, $password, $database);

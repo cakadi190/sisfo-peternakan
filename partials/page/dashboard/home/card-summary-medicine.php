@@ -1,6 +1,6 @@
 <?php
 
-$medicineData = $db->getConnection()->prepare("SELECT SUM(`stock`) as stock FROM `animal_medicine`");
+$medicineData = $db->getConnection()->prepare("SELECT SUM(`stock`) as stock FROM `animal_medicines`");
 $medicineData->execute();
 $medicineItems = $medicineData->get_result()->fetch_all(MYSQLI_ASSOC);
 ?>

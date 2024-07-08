@@ -17,7 +17,7 @@ SELECT
     am.id as medicine_id,
     am.medication_name
 FROM medication_retrieval mr
-JOIN animal_medicine am ON mr.med_id = am.id
+JOIN animal_medicines am ON mr.med_id = am.id
 JOIN users us ON mr.taken_by = us.id
 WHERE mr.id = ?
 ");

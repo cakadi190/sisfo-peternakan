@@ -26,7 +26,7 @@ function checkIfNegative($number) {
 function checkIfStockLessThanTotalRetrieval($id, $stock) {
   global $db;
 
-  $getStock = $db->getConnection()->prepare("SELECT COALESCE(CAST(SUM(`quantity_taken`) AS UNSIGNED), 0) as `total` FROM `barn_retrieval` WHERE `categories` = ?");
+  $getStock = $db->getConnection()->prepare("SELECT COALESCE(CAST(SUM(`quantity_taken`) AS UNSIGNED), 0) as `total` FROM `barn_retrievals` WHERE `categories` = ?");
   $getStock->bind_param("s", $id);
   $getStock->execute();
   $dataStock = $getStock->get_result()->fetch_assoc();

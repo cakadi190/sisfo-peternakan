@@ -19,7 +19,7 @@ if ($user['role'] === 1) {
       am.id as medicine_id,
       am.medication_name
     FROM medication_retrieval mr
-    JOIN animal_medicine am ON mr.med_id = am.id
+    JOIN animal_medicines am ON mr.med_id = am.id
     JOIN users us ON mr.taken_by = us.id
     ORDER BY mr.created_at DESC
   ");
@@ -32,7 +32,7 @@ if ($user['role'] === 1) {
       am.id as medicine_id,
       am.medication_name
     FROM medication_retrieval mr
-    JOIN animal_medicine am ON mr.med_id = am.id
+    JOIN animal_medicines am ON mr.med_id = am.id
     JOIN users us ON mr.taken_by = us.id
     WHERE mr.taken_by = ?
     ORDER BY mr.created_at DESC

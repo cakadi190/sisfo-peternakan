@@ -5,7 +5,7 @@ use function inc\helper\url;
 include_once(__DIR__ . '/../../../../templates/panel/header.php');
 
 // Get User Data
-$medicineData = $db->getConnection()->prepare("SELECT * FROM animal_medicine WHERE id = ?");
+$medicineData = $db->getConnection()->prepare("SELECT * FROM animal_medicines WHERE id = ?");
 $medicineData->bind_param('s', $_GET['id']);
 $medicineData->execute();
 $medicineDataResult = $medicineData->get_result()->fetch_assoc();

@@ -16,7 +16,7 @@ us.full_name,
 us.id as user_id,
 bc.id as barn_id,
 bc.barn_name
-FROM barn_retrieval br
+FROM barn_retrievals br
 JOIN barn_categories bc ON br.categories = bc.id
 JOIN users us ON br.taken_by = us.id
 WHERE br.id = ?

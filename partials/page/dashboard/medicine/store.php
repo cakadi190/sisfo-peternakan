@@ -38,7 +38,7 @@ if (Request::isMethod('post')) {
   }
 
   try {
-    $db->insert('animal_medicine', $medicationData);
+    $db->insert('animal_medicines', $medicationData);
     $_SESSION['success'] = "Berhasil menambahkan data ke dalam database!";
     redirect('/dashboard/medicine');
   } catch (\Exception $e) {

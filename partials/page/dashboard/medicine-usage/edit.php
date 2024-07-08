@@ -11,7 +11,7 @@ $usersList->execute();
 $users = $usersList->get_result()->fetch_all(MYSQLI_ASSOC);
 
 // Get All Medicines
-$medList = $db->getConnection()->prepare("SELECT * FROM animal_medicine");
+$medList = $db->getConnection()->prepare("SELECT * FROM animal_medicines");
 $medList->execute();
 $medicines = $medList->get_result()->fetch_all(MYSQLI_ASSOC);
 

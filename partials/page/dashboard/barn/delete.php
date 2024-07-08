@@ -23,7 +23,7 @@ function deleteFileIfExists($filename)
 
 function deleteMedicationData($db, $id)
 {
-  $stmt = $db->getConnection()->prepare("DELETE FROM barn_retrieval WHERE id = ?");
+  $stmt = $db->getConnection()->prepare("DELETE FROM barn_retrievals WHERE id = ?");
   $stmt->bind_param('s', $id);
   return $stmt->execute();
 }
@@ -34,7 +34,7 @@ if (!$id) {
   redirectToDashboard("ID target data pengambilan Pakan Ternak tidak diberikan!");
 }
 
-$stmt = $db->getConnection()->prepare("SELECT evidence FROM barn_retrieval WHERE id = ?");
+$stmt = $db->getConnection()->prepare("SELECT evidence FROM barn_retrievals WHERE id = ?");
 $stmt->bind_param('s', $id);
 $stmt->execute();
 $result = $stmt->get_result();

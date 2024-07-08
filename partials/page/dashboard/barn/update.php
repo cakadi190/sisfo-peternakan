@@ -46,7 +46,7 @@ function deleteLastImage() {
   // Sanitize input
   $sanitizedId = Sanitize::sanitizeInput($_GET['id']);
 
-  $getTheQuery = $db->getConnection()->prepare("SELECT * FROM `barn_retrieval` WHERE `id` = ?");
+  $getTheQuery = $db->getConnection()->prepare("SELECT * FROM `barn_retrievals` WHERE `id` = ?");
   $getTheQuery->bind_param('s', $sanitizedId); // Pass the sanitized id variable
   $getTheQuery->execute();
 
@@ -108,7 +108,7 @@ function checkTheStock($usage, $medId)
   }
 
   // Get the total quantity taken for the given medicine id
-  $getTotalQuantity = $db->getConnection()->prepare("SELECT SUM(`quantity_taken`) as total_quantity FROM `barn_retrieval` WHERE `categories` = ?");
+  $getTotalQuantity = $db->getConnection()->prepare("SELECT SUM(`quantity_taken`) as total_quantity FROM `barn_retrievals` WHERE `categories` = ?");
   $getTotalQuantity->bind_param("s", $medId);
   $getTotalQuantity->execute();
   $dataTotalQuantity = $getTotalQuantity->get_result()->fetch_assoc();
@@ -178,8 +178,8 @@ function handleFormSubmission($db)
     $store['evidence'] = $fullFilename;
   }
 
-  // Insert data into the 'barn_retrieval' table
-  $db->update('barn_retrieval', $store, "`id` = '{$id}'");
+  // Insert data into the 'barn_retrievals' table
+  $db->update('barn_retrievals', $store, "`id` = '{$id}'");
 
   // Redirect to success page
   handleSuccessRedirect("Berhasil mengubah data pengambilan pakan.");
