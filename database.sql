@@ -32,16 +32,16 @@ CREATE TABLE `animal_medicines` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `medication_name` varchar(255) DEFAULT NULL,
-  `medication_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `medication_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `dosage` varchar(50) DEFAULT NULL,
-  `usage` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `usage` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `batch_number` varchar(50) DEFAULT NULL,
   `expiration_date` date DEFAULT NULL,
   `buy_date` date DEFAULT NULL,
   `vendor` varchar(255) DEFAULT NULL,
-  `contradictions` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `contradictions` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `stock` bigint UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data obat-obatan ternak';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Data obat-obatan ternak';
 
 -- --------------------------------------------------------
 
@@ -59,7 +59,7 @@ CREATE TABLE `barn_categories` (
   `vendor_name` varchar(191) DEFAULT NULL,
   `stock` bigint DEFAULT '0',
   `entrance_date` datetime DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Komoditas gudang bahan pakan ternak';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Komoditas gudang bahan pakan ternak';
 
 -- --------------------------------------------------------
 
@@ -76,7 +76,7 @@ CREATE TABLE `barn_retrievals` (
   `taken_by` int DEFAULT NULL,
   `quantity_taken` bigint UNSIGNED DEFAULT '0',
   `evidence` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data pengambilan stok pakan';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Data pengambilan stok pakan';
 
 -- --------------------------------------------------------
 
@@ -89,13 +89,13 @@ CREATE TABLE `farms` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `name` varchar(191) DEFAULT NULL,
-  `category` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `category` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `farm_shed` varchar(191) NOT NULL,
   `entrance_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `status` enum('terjual','mati','hidup') DEFAULT 'hidup',
   `pic` int DEFAULT NULL,
   `gender` enum('jantan','betina') DEFAULT 'jantan'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data hewan ternak';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Data hewan ternak';
 
 -- --------------------------------------------------------
 
@@ -109,9 +109,9 @@ CREATE TABLE `farm_category` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `category_name` varchar(191) NOT NULL,
   `color` varchar(191) NOT NULL DEFAULT '#fff',
-  `weight_class` enum('berat','sedang','ringan') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'ringan',
+  `weight_class` enum('berat','sedang','ringan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'ringan',
   `race` varchar(191) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Kategori hewan ternak';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Kategori hewan ternak';
 
 -- --------------------------------------------------------
 
@@ -128,7 +128,7 @@ CREATE TABLE `medication_retrieval` (
   `taken_by` int NOT NULL,
   `quantity_taken` bigint UNSIGNED DEFAULT '0',
   `evidence` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data pengambilan obat-obatan ternak';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Data pengambilan obat-obatan ternak';
 
 -- --------------------------------------------------------
 
@@ -140,7 +140,7 @@ CREATE TABLE `roles` (
   `id` int UNSIGNED NOT NULL,
   `name` varchar(191) NOT NULL DEFAULT 'Administrator',
   `color` varchar(9) DEFAULT '#FFFFFF'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Role user and reference into user';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Role user and reference into user';
 
 --
 -- Dumping data for table `roles`
@@ -160,14 +160,14 @@ CREATE TABLE `users` (
   `id` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `full_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `full_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `address` longtext,
   `role` int UNSIGNED NOT NULL,
-  `phone` char(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `phone` char(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Data karyawan dan pengguna';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Data karyawan dan pengguna';
 
 --
 -- Dumping data for table `users`
